@@ -11,15 +11,15 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String firsName;
+    private String firstName;
     private String lastName;
     private String email;
 
     public Client() {
     }
 
-    public Client(String firsName, String lastName, String email) {
-        this.firsName = firsName;
+    public Client(String firstName, String lastName, String email) {
+        this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
     }
@@ -32,12 +32,12 @@ public class Client {
         this.id = id;
     }
 
-    public String getFirsName() {
-        return firsName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirsName(String firsName) {
-        this.firsName = firsName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
