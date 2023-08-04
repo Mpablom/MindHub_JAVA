@@ -1,30 +1,20 @@
-package com.mindhub.homebanking.models;
+package com.mindhub.homebanking.DTO;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import com.mindhub.homebanking.models.Account;
 
 import java.time.LocalDate;
 
-@Entity
-public class Account {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class AccountDTO {
     private long id;
     private String number;
     private LocalDate creationDate;
     private double balance;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="client_id")
-    private Client client;
 
-    public Account(String number, LocalDate creationDate, double balance, Client client) {
-        this.number = number;
-        this.creationDate = creationDate;
-        this.balance = balance;
-        this.client = client;
-    }
-
-    public Account() {
+    public AccountDTO(Account account) {
+        this.id = account.getId();
+        this.number = account.getNumber();
+        this.creationDate = account.getCreationDate();
+        this.balance = account.getBalance();
     }
 
     public long getId() {
@@ -57,14 +47,5 @@ public class Account {
 
     public void setBalance(double balance) {
         this.balance = balance;
-    }
-
-    @JsonIgnore
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
     }
 }
