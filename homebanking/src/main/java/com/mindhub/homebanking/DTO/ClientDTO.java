@@ -1,5 +1,6 @@
 package com.mindhub.homebanking.DTO;
 
+import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 
 import java.util.HashSet;
@@ -10,14 +11,10 @@ public class ClientDTO {
     private String firstName;
     private String lastName;
     private String email;
-    Set<AccountDTO> account = new HashSet<>();
+    Set<Account> account = new HashSet<>();
 
-    public ClientDTO(Client client, Set<AccountDTO> account) {
-        this.id = client.getId();
-        this.firstName = client.getFirstName();
-        this.lastName = client.getLastName();
-        this.email = client.getEmail();
-        this.account = account;
+    public Set<Account> getAccount() {
+        return account;
     }
 
     public long getId() {
@@ -52,4 +49,11 @@ public class ClientDTO {
         this.email = email;
     }
 
+    public ClientDTO(Client client) {
+        this.id = client.getId();
+        this.firstName = client.getFirstName();
+        this.lastName = client.getLastName();
+        this.email = client.getEmail();
+        this.account = client.getAccount();
+    }
 }

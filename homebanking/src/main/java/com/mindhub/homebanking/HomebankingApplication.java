@@ -24,7 +24,14 @@ public class HomebankingApplication {
 			Client client1 = new Client("Melba", "Morel","melba@mindhub.com");
 			clientRepository.save(client1);
 
+			Client client2 = new Client("Pablo", "Moya","pablomoya@mindhub.com");
+			clientRepository.save(client2);
 			LocalDate today = LocalDate.now();
+
+			Account account3 = new Account("132456b",today,2000,client2);
+			accountRepository.save(account3);
+
+
 			Account account1 = new Account("1a2b",today,5000,client1);
 			accountRepository.save(account1);
 

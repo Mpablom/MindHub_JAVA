@@ -4,6 +4,7 @@ import com.mindhub.homebanking.DTO.ClientDTO;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,11 +23,15 @@ public class ClientController {
 
     @GetMapping("/clients")
     public List<ClientDTO> getClients(){
-        return clientRepository.findAll().stream().map(ClientDTO::new).collect(toList());
+        return clientRepository.findAll()
+                .stream().map(ClientDTO::new).collect(toList());
     }
     @GetMapping("/clients/{id}")
-    public Optional<Client> clientById(@PathVariable long id){
-        return clientRepository.findById(id);
+    public ResponseEntity<ClientDTO> getclient(@PathVariable long id){
+        return clientRepository.findById(id)
+                .map(ClientDTO::new)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
 }
