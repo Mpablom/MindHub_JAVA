@@ -1,26 +1,20 @@
-package com.mindhub.homebanking.models;
+package com.mindhub.homebanking.DTO;
 
+import com.mindhub.homebanking.models.Account;
+import com.mindhub.homebanking.models.Client;
 
-import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
-
-@Entity
-public class Client {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ClientDTO {
     private long id;
     private String firstName;
     private String lastName;
     private String email;
+    Set<Account> account = new HashSet<>();
 
-    public Client() {
-    }
-
-    public Client(String firstName, String lastName, String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
+    public Set<Account> getAccount() {
+        return account;
     }
 
     public long getId() {
@@ -55,4 +49,11 @@ public class Client {
         this.email = email;
     }
 
+    public ClientDTO(Client client) {
+        this.id = client.getId();
+        this.firstName = client.getFirstName();
+        this.lastName = client.getLastName();
+        this.email = client.getEmail();
+        this.account = client.getAccount();
+    }
 }
