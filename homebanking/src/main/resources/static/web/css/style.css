@@ -1,3 +1,7 @@
+:root {
+  --primary-bg-color: #ffffff; /* Color de fondo en el tema light */
+  --primary-text-color: #000000; /* Color del texto en el tema light */
+}
 
 * {
     margin: 0px;
@@ -6,14 +10,22 @@
     box-sizing: border-box;
 
 }
+
 body {
     min-height: 100vh;
     max-width:90%;
-    background:#f7f1e3;
+    background-color: var(--primary-bg-color);
+    color: var(--primary-text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-theme {
+  --primary-bg-color: #1a1a1a; /* Color de fondo en el tema dark */
+  --primary-text-color: #ffffff; /* Color del texto en el tema dark */
 }
 
 .account {
-    background: #1e3799;
+    background: linear-gradient(45deg,#487eb0,#00a8ff,#487eb0);
     color: white;
     /*box-shadow: 1px 1px 5px black;*/
     display:flex;
@@ -90,7 +102,7 @@ body {
   box-shadow: 0 10px 20px 5px rgba(0,0,0,0.3);
   min-height: 100vh;
   border-radius: 0 20px 0 0;
-  background: #778beb;
+  background: linear-gradient(45deg,#487eb0,#00a8ff,#487eb0);
 }
 .left-menu {
     min-height:100vh;

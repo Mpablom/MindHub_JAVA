@@ -4,6 +4,7 @@ Vue.createApp({
             clientInfo: {},
             errorToats: null,
             errorMsg: null,
+            darkMode: false,
         }
     },
     methods: {
@@ -22,6 +23,9 @@ Vue.createApp({
         formatDate(date) {
             return new Date(date).toLocaleDateString('en-us');
         },
+        toggleTheme() {
+              this.darkMode = !this.darkMode;
+            },
     },
     mounted() {
         this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));

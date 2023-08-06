@@ -1,9 +1,10 @@
 package com.mindhub.homebanking.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 public class Account {
@@ -66,5 +67,10 @@ public class Account {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+    @Transient
+    public String getFormattedCreationDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return creationDate.format(formatter);
     }
 }

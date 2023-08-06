@@ -1,6 +1,6 @@
 package com.mindhub.homebanking.models;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -15,7 +15,7 @@
     <title>Accounts</title>
 </head>
 
-<body>
+<body :class="{'dark-theme': darkMode}">
     <div id="app">
         <div class="toast-container position-absolute p-3 top-0 end-0" id="toastPlacement">
             <div id="danger-toast" data-bs-delay="2000" class="toast align-items-center text-white bg-danger border-0"
@@ -29,6 +29,9 @@
                 </div>
             </div>
         </div>
+        <div class="toogle-theme">
+            <button @click="toggleTheme">Toggle Theme</button>
+        </div>
         <div class="container">
             <div class="row mt-4">
                 <div class="col-12 col-md-2 menu p-5">
@@ -40,7 +43,7 @@
                         <hr>
                         <ul class="nav nav-pills flex-column mb-auto">
                             <li class="nav-item">
-                                <a href="/web/accounts.html" class="nav-link active bg-gradient">
+                                <a href="/web/accounts.html" class="nav-link active">
                                     <i class="bi bi-inboxes"></i>
                                     Accounts
                                 </a>
@@ -53,7 +56,7 @@
                             </li>
                             <li>
                                 <a href="/web/transfers.html" class="nav-link link-dark">
-                                    <i class="bi bi-box-arrow-right"></i>
+                                    <i class="bi bi-arrow-left-right"></i>
                                     Transfers
                                 </a>
                             </li>
@@ -67,7 +70,7 @@
                         <hr>
                         <ul class="nav nav-pills flex-column mb-auto justify-content-center">
                             <li class="sign-out-container">
-                                <button class="btn btn-danger img-fluid sign-out w-100 bg-gradient">Sign out</button>
+                                <button class="btn btn-danger img-fluid sign-out w-100 bg-gradient"><i class="bi bi-box-arrow-right"></i> Sign Out</button>
                             </li>
                         </ul>
                     </div>
