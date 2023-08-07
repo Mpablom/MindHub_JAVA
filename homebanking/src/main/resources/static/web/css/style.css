@@ -1,8 +1,3 @@
-:root {
-  --primary-bg-color: #ffffff; /* Color de fondo en el tema light */
-  --primary-text-color: #000000; /* Color del texto en el tema light */
-}
-
 * {
     margin: 0px;
     padding: 0px;
@@ -11,17 +6,22 @@
 
 }
 
-body {
+body{
     min-height: 100vh;
-    max-width:90%;
-    background-color: var(--primary-bg-color);
-    color: var(--primary-text-color);
-    transition: background-color 0.3s ease, color 0.3s ease;
+    max-width:100%;
+    overflow-x:hidden;
+    background-color:#f1f2f6;
+    color: #303952;
+    transition: background-color 0.9s ease-in-out, color 0.9s ease-in-out;
+}
+body.light-theme {
+    background-color:#f1f2f6;
+    color: #303952;
 }
 
 body.dark-theme {
-  --primary-bg-color: #1a1a1a; /* Color de fondo en el tema dark */
-  --primary-text-color: #ffffff; /* Color del texto en el tema dark */
+    background-color: #2f3640;
+    color: #718093;
 }
 
 .account {
@@ -96,18 +96,49 @@ body.dark-theme {
 .container {
     max-width:100% !important;
 }
+/* ... (otros estilos) ... */
+
 .menu {
   display: flex;
   flex-direction: column;
-  box-shadow: 0 10px 20px 5px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 20px 5px rgba(0, 0, 0, 0.3);
   min-height: 100vh;
-  border-radius: 0 20px 0 0;
-  background: linear-gradient(45deg,#487eb0,#00a8ff,#487eb0);
+  border-radius: 0 20px 20px 0;
+  background: linear-gradient(45deg, #487eb0, #00a8ff, #487eb0);
 }
+
 .left-menu {
-    min-height:100vh;
-    display:grid;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
-.client-name{
-    justify-content: space-evenly;
+
+.client-name {
+  justify-content: space-evenly;
+}
+
+.theme-toggle-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.sign-out-container {
+  position: absolute;
+  bottom: 10px;
+  left: auto;
+  display:contents;
+}
+/*scrollbar*/
+body::-webkit-scrollbar{
+    width:10px;
+}
+body::-webkit-scrollbar-thumb{
+    background:linear-gradient(45deg, #487eb0, #00a8ff, #487eb0);
+    border-radius:8px;
+}
+body::-webkit-scrollbar-thumb:hover{
+    background:linear-gradient(45deg, #00a8ff,#487eb0, #00a8ff);
 }

@@ -4,7 +4,7 @@ Vue.createApp({
             clientInfo: {},
             errorToats: null,
             errorMsg: null,
-            darkMode: false,
+            theme:"light",
         }
     },
     methods: {
@@ -24,8 +24,18 @@ Vue.createApp({
             return new Date(date).toLocaleDateString('en-us');
         },
         toggleTheme() {
-              this.darkMode = !this.darkMode;
-            },
+            console.log("cambio de tema");
+            const body = document.querySelector('body');
+            if (this.theme === "dark") {
+                body.classList.remove("dark-theme");
+                body.classList.add("light-theme");
+                this.theme = "light";
+            }else{
+                body.classList.remove("light-theme");
+                body.classList.add("dark-theme");
+                this.theme = "dark";
+            }
+        },
     },
     mounted() {
         this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));
