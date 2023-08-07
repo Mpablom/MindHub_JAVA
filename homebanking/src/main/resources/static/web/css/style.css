@@ -23,11 +23,16 @@ body.dark-theme {
     background-color: #2f3640;
     color: #718093;
 }
+h4,p{
+    color:#222f3e;
+}
+h4{
+    margin-top:0;
+}
 
 .account {
     background: linear-gradient(45deg,#487eb0,#00a8ff,#487eb0);
     color: white;
-    /*box-shadow: 1px 1px 5px black;*/
     display:flex;
     justify-content:start;
 }
@@ -96,7 +101,6 @@ body.dark-theme {
 .container {
     max-width:100% !important;
 }
-/* ... (otros estilos) ... */
 
 .menu {
   display: flex;
@@ -108,7 +112,7 @@ body.dark-theme {
 }
 
 .left-menu {
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -120,17 +124,33 @@ body.dark-theme {
 
 .theme-toggle-container {
   position: fixed;
-  bottom: 20px;
+  top: 50px;
   right: 20px;
   z-index: 9999;
 }
 
 .sign-out-container {
-  position: absolute;
-  bottom: 10px;
-  left: auto;
   display:contents;
 }
+.img-slide{
+    height:450px !important;
+    border-radius:30px;
+}
+.carousel-caption{
+    top:80%;
+    padding-bottom:0;
+    padding-top:0;
+    margin-top:0;
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(10px);
+    width:100%;
+    left:0;
+}
+.carousel-inner{
+    border-radius:30px;
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.4);
+}
+
 /*scrollbar*/
 body::-webkit-scrollbar{
     width:10px;
