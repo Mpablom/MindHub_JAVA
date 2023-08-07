@@ -156,9 +156,9 @@ body::-webkit-scrollbar{
     width:10px;
 }
 body::-webkit-scrollbar-thumb{
-    background:linear-gradient(45deg, #487eb0, #00a8ff, #487eb0);
+    background:#95a5a6;
     border-radius:8px;
 }
 body::-webkit-scrollbar-thumb:hover{
-    background:linear-gradient(45deg, #00a8ff,#487eb0, #00a8ff);
+    background:#7f8c8d;
 }
