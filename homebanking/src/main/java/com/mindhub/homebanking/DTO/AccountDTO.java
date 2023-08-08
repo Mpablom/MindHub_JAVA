@@ -10,6 +10,26 @@ public class AccountDTO {
     private LocalDate creationDate;
     private double balance;
 
+
+    public long getId() {
+        return id;
+    }
+
+
+    public String getNumber() {
+        return number;
+    }
+
+
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
+
+    public double getBalance() {
+        return balance;
+    }
+
     public AccountDTO(Account account) {
         this.id = account.getId();
         this.number = account.getNumber();
@@ -17,35 +37,4 @@ public class AccountDTO {
         this.balance = account.getBalance();
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public LocalDate getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
 }
