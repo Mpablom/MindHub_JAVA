@@ -31,7 +31,7 @@ public class HomebankingApplication {
 			Client client2 = new Client("Pablo", "Moya","pablomoya@mindhub.com");
 			clientRepository.save(client2);
 
-			Account account3 = new Account("132456b",today,2000,client2);
+			Account account3 = new Account("VIN-003",today,2000,client2);
 			accountRepository.save(account3);
 
 

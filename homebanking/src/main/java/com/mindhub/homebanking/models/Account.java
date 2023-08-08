@@ -60,17 +60,12 @@ public class Account {
         this.balance = balance;
     }
 
-    @JsonIgnore
+
     public Client getClient() {
         return client;
     }
 
     public void setClient(Client client) {
         this.client = client;
-    }
-    @Transient
-    public String getFormattedCreationDate() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return creationDate.format(formatter);
     }
 }
