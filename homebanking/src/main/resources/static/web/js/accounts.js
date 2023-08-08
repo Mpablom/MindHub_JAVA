@@ -13,6 +13,7 @@ Vue.createApp({
                 .then((response) => {
                     //get client ifo
                     this.clientInfo = response.data;
+                    console.table(this.clientInfo);
                 })
                 .catch((error) => {
                     // handle error
