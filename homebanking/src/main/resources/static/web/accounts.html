@@ -88,7 +88,7 @@
                             <h2 class="display-6 subtitle m-auto">Accounts</h2>
                         </div>
                         <div class="row mx-2 d-flex justify-content-center gap-5">
-                            <div v-for="{id, number, creationDate, balance} in clientInfo.account"
+                            <div v-for="{id, number, creationDate, balance} in clientInfo.accounts"
                                 class="col-12 col-md-4 mt-5">
                                 <a class="account-link" :href="'/web/account.html?id='+id">
                                     <div class="card border-0 account d-flex rounded-3">

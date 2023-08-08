@@ -12,11 +12,11 @@ public class ClientDTO {
     private String firstName;
     private String lastName;
     private String email;
-    Set<AccountDTO> account = new HashSet<>();
+    Set<AccountDTO> accounts = new HashSet<>();
 
 
-    public Set<AccountDTO> getAccount() {
-        return account;
+    public Set<AccountDTO> getAccounts() {
+        return accounts;
     }
 
     public long getId() {
@@ -40,7 +40,7 @@ public class ClientDTO {
         this.firstName = client.getFirstName();
         this.lastName = client.getLastName();
         this.email = client.getEmail();
-        this.account = client.getAccount().stream().map(AccountDTO::new).collect(toSet());;
+        this.accounts = client.getAccount().stream().map(AccountDTO::new).collect(toSet());;
     }
 
 }
