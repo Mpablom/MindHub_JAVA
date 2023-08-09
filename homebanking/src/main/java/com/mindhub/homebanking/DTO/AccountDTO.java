@@ -12,7 +12,7 @@ public class AccountDTO {
     private String number;
     private LocalDate creationDate;
     private double balance;
-    Set<TransactionDTO> transactions = new HashSet<>();
+    private Set<TransactionDTO> transactions = new HashSet<>();
 
     public Set<TransactionDTO> getTransactions() {
         return transactions;
