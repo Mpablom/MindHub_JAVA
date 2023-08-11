@@ -9,9 +9,11 @@ import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.mindhub.homebanking.models.TransactionType.CREDIT;
@@ -29,7 +31,7 @@ public class HomebankingApplication {
 	public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository, TransactionRepository transactionRepository, LoanRepository loanRepository, ClientLoanRepository clientLoanRepository) {
 		return (args) -> {
 
-			LocalDate today = LocalDate.now();
+			LocalDate today = LocalDate.now().plusDays(1);
 			LocalDate tomorrow = today.plusDays(1);
 
 			/*Creación de clientes 1 y 2 */
@@ -73,14 +75,19 @@ public class HomebankingApplication {
 			transactionRepository.save(transaction6);
 
 			/*Creación de Loans*/
-			List<Integer> mortage =Stream.of(12,24,36,48,60).collect(toCollection(ArrayList::new));
+
+			/*List<Integer> mortage =Stream.of(12,24,36,48,60).collect(toCollection(ArrayList::new));
 			List<Integer> personal =Stream.of(6,12,24).collect(toCollection(ArrayList::new));
-			List<Integer> automotive =Stream.of(6,12,24,36).collect(toCollection(ArrayList::new));
-			Loan loan1 = new Loan("Mortgage",500000,mortage);
+			List<Integer> automotive =Stream.of(6,12,24,36).collect(toCollection(ArrayList::new));*/
+
+			List<Integer> payments = Stream.of(6,12, 24, 36, 48, 60)
+					.collect(Collectors.toList());
+
+			Loan loan1 = new Loan("Mortgage",500000,payments.subList(1,6));
 			loanRepository.save(loan1);
-			Loan loan2 = new Loan("Personal",100000,personal);
+			Loan loan2 = new Loan("Personal",100000,payments.subList(0,3));
 			loanRepository.save(loan2);
-			Loan loan3 = new Loan("Automotive",300000,automotive);
+			Loan loan3 = new Loan("Automotive",300000,payments.subList(0,4));
 			loanRepository.save(loan3);
 
 			/*Creación de los loan para clients*/
