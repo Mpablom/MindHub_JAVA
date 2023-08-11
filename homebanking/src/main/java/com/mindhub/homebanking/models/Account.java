@@ -20,8 +20,12 @@ public class Account {
     @JoinColumn(name="client_id")
     private Client client;
     @OneToMany(mappedBy="account", fetch=FetchType.EAGER)
-    Set<Transaction> transactions = new HashSet<>();
+    private Set<Transaction> transactions = new HashSet<>();
 
+    //Costructors
+
+    public Account() {
+    }
     public Account(String number, LocalDate creationDate, double balance, Client client) {
         this.number = number;
         this.creationDate = creationDate;
@@ -29,8 +33,7 @@ public class Account {
         this.client = client;
     }
 
-    public Account() {
-    }
+    //Getters and Setters
 
     public long getId() {
         return id;

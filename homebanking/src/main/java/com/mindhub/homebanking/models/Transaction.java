@@ -17,9 +17,10 @@ public class Transaction {
     @JoinColumn(name="account_id")
     private Account account;
 
+    //Constructors
+
     public Transaction() {
     }
-
     public Transaction(TransactionType type, int amount, String description, LocalDateTime date, Account account) {
         this.type = type;
         this.amount = amount;
@@ -27,6 +28,8 @@ public class Transaction {
         this.date = date;
         this.account = account;
     }
+
+    //Getters and Setters
 
     public long getId() {
         return id;
