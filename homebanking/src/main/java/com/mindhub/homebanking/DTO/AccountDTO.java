@@ -18,6 +18,18 @@ public class AccountDTO {
         return transactions;
     }
 
+    //Constructor
+
+    public AccountDTO(Account account) {
+        this.id = account.getId();
+        this.number = account.getNumber();
+        this.creationDate = account.getCreationDate();
+        this.balance = account.getBalance();
+        this.transactions = account.getTransactions().stream().map(TransactionDTO::new).collect(Collectors.toSet());
+    }
+
+    //Getters
+
     public long getId() {
         return id;
     }
@@ -37,12 +49,5 @@ public class AccountDTO {
         return balance;
     }
 
-    public AccountDTO(Account account) {
-        this.id = account.getId();
-        this.number = account.getNumber();
-        this.creationDate = account.getCreationDate();
-        this.balance = account.getBalance();
-        this.transactions = account.getTransactions().stream().map(TransactionDTO::new).collect(Collectors.toSet());
-    }
 
 }

@@ -1,10 +1,11 @@
-Vue.createApp({
+const { createApp } = Vue;
+
+createApp({
     data() {
         return {
             clientInfo: {},
             errorToats: null,
             errorMsg: null,
-            theme:"light",
         }
     },
     methods: {
@@ -13,29 +14,16 @@ Vue.createApp({
                 .then((response) => {
                     //get client ifo
                     this.clientInfo = response.data;
+                    console.log(this.clientInfo);
                 })
                 .catch((error) => {
                     // handle error
                     this.errorMsg = "Error getting data";
-                    this.errorToats.show();
                 })
         },
         formatDate(date) {
-            return new Date(date).toLocaleDateString('en-us');
-        },
-        toggleTheme() {
-            console.log("cambio de tema");
-            const body = document.querySelector('body');
-            if (this.theme === "dark") {
-                body.classList.remove("dark-theme");
-                body.classList.add("light-theme");
-                this.theme = "light";
-            }else{
-                body.classList.remove("light-theme");
-                body.classList.add("dark-theme");
-                this.theme = "dark";
-            }
-        },
+            return new Date(date).toLocaleDateString('en-gb');
+        }
     },
     mounted() {
         this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));

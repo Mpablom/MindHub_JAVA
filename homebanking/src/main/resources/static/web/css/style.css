@@ -1,44 +1,18 @@
 * {
     margin: 0px;
     padding: 0px;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     box-sizing: border-box;
-
-}
-
-body{
-    min-height: 100vh;
-    max-width:100%;
-    overflow-x:hidden;
-    background-color:#f1f2f6;
-    color: #303952;
-    transition: background-color 0.9s ease-in-out, color 0.9s ease-in-out;
-}
-body.light-theme {
-    background-color:#f1f2f6;
-    color: #303952;
-}
-
-body.dark-theme {
-    background-color: #2f3640;
-    color: #718093;
-}
-h4,p{
-    color: #303952;
-}
-h4{
-    margin-top:0;
 }
 
 .account {
-    background: linear-gradient(45deg,#487eb0,#00a8ff,#487eb0);
+    background: linear-gradient(45deg, #ee0979, #ff6a00);
     color: white;
-    display:flex;
-    justify-content:start;
+    box-shadow: 1px 1px 5px black;
 }
 
 .account:hover {
-    box-shadow: 0 10px 20px 5px rgba(0,0,0,0.2);
+    box-shadow: 2px 2px 10px black;
 }
 
 .account-details-header {
@@ -97,68 +71,4 @@ h4{
 
 .index-container {
     margin-top: 10%;
-}
-.container {
-    max-width:100% !important;
-}
-
-.menu {
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 10px 20px 5px rgba(0, 0, 0, 0.3);
-  min-height: 100vh;
-  border-radius: 0 20px 20px 0;
-  background: linear-gradient(45deg, #487eb0, #00a8ff, #487eb0);
-}
-
-.left-menu {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.client-name {
-  justify-content: space-evenly;
-}
-
-.theme-toggle-container {
-  position: fixed;
-  top: 50px;
-  right: 20px;
-  z-index: 9999;
-}
-
-.sign-out-container {
-  display:contents;
-}
-.img-slide{
-    height:450px !important;
-    border-radius:30px;
-}
-.carousel-caption{
-    top:80%;
-    padding-bottom:0;
-    padding-top:0;
-    margin-top:0;
-    background:rgba(255,255,255,0.2);
-    backdrop-filter:blur(10px);
-    width:100%;
-    left:0;
-}
-.carousel-inner{
-    border-radius:30px;
-    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.4);
-}
-
-/* scrollbar */
-body::-webkit-scrollbar{
-    width:10px;
-}
-body::-webkit-scrollbar-thumb{
-    background:#95a5a6;
-    border-radius:8px;
-}
-body::-webkit-scrollbar-thumb:hover{
-    background:#7f8c8d;
 }
