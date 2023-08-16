@@ -108,12 +108,12 @@ public class HomebankingApplication {
 			String cardholder = client1.getFirstName() +" "+client1.getLastName();
 			String cardholder2 = client2.getFirstName()+" "+client2.getLastName();
 
-			Card card1 = new Card(cardholder,DEBIT_CARD,GOLD,1234567890123L,123,thruDate,fromDate,client1);
+			Card card1 = new Card(cardholder,DEBIT_CARD,GOLD,"1234 5678 9012 3456",123,thruDate,fromDate,client1);
 			cardRepository.save(card1);
-			Card card2 = new Card(cardholder,CREDIT_CARD,TITANIUM,9876543210987L,321,thruDate,fromDate,client1);
+			Card card2 = new Card(cardholder,CREDIT_CARD,TITANIUM,"9876 5432 1098 7654",321,thruDate,fromDate,client1);
 			cardRepository.save(card2);
 
-			Card card3 = new Card(cardholder2,CREDIT_CARD,SILVER,1231231231231L,678,thruDate,fromDate,client2);
+			Card card3 = new Card(cardholder2,CREDIT_CARD,SILVER,"1231 2312 3123 1231",678,thruDate,fromDate,client2);
 			cardRepository.save(card3);
 		};
 	}
