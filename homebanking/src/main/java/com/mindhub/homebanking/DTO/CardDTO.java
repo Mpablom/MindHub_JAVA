@@ -3,11 +3,7 @@ package com.mindhub.homebanking.DTO;
 import com.mindhub.homebanking.models.Card;
 import com.mindhub.homebanking.models.CardColor;
 import com.mindhub.homebanking.models.CardType;
-import com.mindhub.homebanking.models.Client;
 
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 
 public class CardDTO {
@@ -15,7 +11,7 @@ public class CardDTO {
     private String cardholder;
     private CardType type;
     private CardColor color;
-    private long number;
+    private String number;
     private int cvv;
     private LocalDate thruDate;
     private LocalDate fromDate;
@@ -47,7 +43,7 @@ public class CardDTO {
         return color;
     }
 
-    public long getNumber() {
+    public String getNumber() {
         return number;
     }
 
