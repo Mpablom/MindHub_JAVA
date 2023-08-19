@@ -79,4 +79,11 @@ public class Client {
         cl.setClient(this);
         clientLoans.add(cl);
     }
+    public Set<Loan> getLoans() {
+        Set<Loan> loans = new HashSet<>();
+        for (ClientLoan clientLoan : clientLoans) {
+            loans.add(clientLoan.getLoan());
+        }
+        return loans;
+    }
 }

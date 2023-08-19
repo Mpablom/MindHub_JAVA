@@ -76,10 +76,6 @@ public class HomebankingApplication {
 
 			/*Creación de Loans*/
 
-			/*List<Integer> mortage =Stream.of(12,24,36,48,60).collect(toCollection(ArrayList::new));
-			List<Integer> personal =Stream.of(6,12,24).collect(toCollection(ArrayList::new));
-			List<Integer> automotive =Stream.of(6,12,24,36).collect(toCollection(ArrayList::new));*/
-
 			List<Integer> payments = Stream.of(6,12, 24, 36, 48, 60)
 					.collect(Collectors.toList());
 
@@ -92,14 +88,25 @@ public class HomebankingApplication {
 
 			/*Creación de los loan para clients*/
 
-			ClientLoan clientLoan1 = new ClientLoan(400000,60,client1,loan1);
+			ClientLoan clientLoan1 = new ClientLoan(400000, 60);
+			clientLoan1.setClient(client1);
+			clientLoan1.setLoan(loan1);
 			clientLoanRepository.save(clientLoan1);
-			ClientLoan clientLoan2 = new ClientLoan(50000,12,client1,loan2);
+
+
+			ClientLoan clientLoan2 = new ClientLoan(50000, 12);
+			clientLoan2.setClient(client1);
+			clientLoan2.setLoan(loan2);
 			clientLoanRepository.save(clientLoan2);
 
-			ClientLoan clientLoan3 = new ClientLoan(100000,24,client2,loan2);
+			ClientLoan clientLoan3 = new ClientLoan(100000, 24);
+			clientLoan3.setClient(client2);
+			clientLoan3.setLoan(loan2);
 			clientLoanRepository.save(clientLoan3);
-			ClientLoan clientLoan4 = new ClientLoan(200000,36,client2,loan3);
+
+			ClientLoan clientLoan4 = new ClientLoan(200000, 36);
+			clientLoan4.setClient(client2);
+			clientLoan4.setLoan(loan3);
 			clientLoanRepository.save(clientLoan4);
 		};
 	}
