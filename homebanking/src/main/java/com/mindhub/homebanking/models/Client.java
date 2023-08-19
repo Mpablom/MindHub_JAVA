@@ -88,4 +88,11 @@ public class Client {
         card.setClient(this);
         cards.add(card);
     }
+    public Set<Loan> getLoans() {
+        Set<Loan> loans = new HashSet<>();
+        for (ClientLoan clientLoan : clientLoans) {
+            loans.add(clientLoan.getLoan());
+        }
+        return loans;
+    }
 }
