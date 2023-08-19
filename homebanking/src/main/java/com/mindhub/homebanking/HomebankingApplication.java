@@ -95,12 +95,12 @@ public class HomebankingApplication {
 
 
 			ClientLoan clientLoan2 = new ClientLoan(50000, 12);
-			clientLoan2.setClient(client1);
+			clientLoan2.setClient(client2);
 			clientLoan2.setLoan(loan2);
 			clientLoanRepository.save(clientLoan2);
 
 			ClientLoan clientLoan3 = new ClientLoan(100000, 24);
-			clientLoan3.setClient(client2);
+			clientLoan3.setClient(client1);
 			clientLoan3.setLoan(loan2);
 			clientLoanRepository.save(clientLoan3);
 
