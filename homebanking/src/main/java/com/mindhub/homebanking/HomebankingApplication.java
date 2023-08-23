@@ -41,10 +41,16 @@ public class HomebankingApplication {
 			/*Creación de clientes 1 y 2 */
 
 			Client client1 = new Client("Melba", "Morel","melba@mindhub.com", passwordEncoder.encode("123asd"));
+			client1.addRole("CLIENT");
 			clientRepository.save(client1);
 
 			Client client2 = new Client("Pablo", "Moya","pablomoya@mindhub.com", passwordEncoder.encode("456qwe"));
+			client2.addRole("CLIENT");
 			clientRepository.save(client2);
+
+			Client admin = new Client("admin","Admin","admin@admin.com",passwordEncoder.encode("admin123"));
+			admin.addRole("ADMIN");
+			clientRepository.save(admin);
 
 			/*Creación de account 3*/
 

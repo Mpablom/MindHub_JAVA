@@ -8,11 +8,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 public class WebAuthentication extends GlobalAuthenticationConfigurerAdapter {
@@ -28,15 +33,19 @@ public class WebAuthentication extends GlobalAuthenticationConfigurerAdapter {
             Client client = clientRepository.findByEmail(inputName);
 
             if (client != null) {
+                List<GrantedAuthority> authorities = new ArrayList<>();
+                authorities.add(new SimpleGrantedAuthority("CLIENT"));
 
-                return new User(client.getEmail(), client.getPassword(),
+                if (client.getRoles().contains("ADMIN")) {
+                    authorities.add(new SimpleGrantedAuthority("ADMIN")); // Agregar la autoridad "ADMIN"
+                }
 
-                        AuthorityUtils.createAuthorityList("CLIENT"));
-
-            } else throw new UsernameNotFoundException("Unknown user: " + inputName);
+                return new User(client.getEmail(), client.getPassword(), authorities);
+            } else {
+                throw new UsernameNotFoundException("Unknown user: " + inputName);
+            }
 
         });
-
     }
 
     @Bean

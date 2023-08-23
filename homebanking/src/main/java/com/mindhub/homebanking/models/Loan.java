@@ -70,6 +70,7 @@ public class Loan {
         cl.setLoan(this);
         clientLoans.add(cl);
     }
+    @JsonIgnore
     public Set<Client> getClients() {
         Set<Client> clients = new HashSet<>();
         for (ClientLoan clientLoan : clientLoans) {
