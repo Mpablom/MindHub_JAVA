@@ -15,6 +15,7 @@ public class ClientDTO {
     private Set<AccountDTO> accounts = new HashSet<>();
     private Set<ClientLoanDTO> loans = new HashSet<>();
     private Set<CardDTO> cards = new HashSet<>();
+    private Set<String> roles = new HashSet<>();
 
     //Constructor
 
@@ -61,4 +62,8 @@ public class ClientDTO {
     public String getEmail() {
         return email;
     }
+    public Set<String> getRoles() {
+        return roles;
+    }
+
 }

@@ -2,10 +2,12 @@ package com.mindhub.homebanking;
 
 import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,6 +24,8 @@ import static com.mindhub.homebanking.models.TransactionType.DEBIT;
 
 @SpringBootApplication
 public class HomebankingApplication {
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	public static void main(String[] args) {
 		SpringApplication.run(HomebankingApplication.class, args);
@@ -36,11 +40,17 @@ public class HomebankingApplication {
 
 			/*Creación de clientes 1 y 2 */
 
-			Client client1 = new Client("Melba", "Morel","melba@mindhub.com");
+			Client client1 = new Client("Melba", "Morel","melba@mindhub.com", passwordEncoder.encode("123asd"));
+			client1.addRole("CLIENT");
 			clientRepository.save(client1);
 
-			Client client2 = new Client("Pablo", "Moya","pablomoya@mindhub.com");
+			Client client2 = new Client("Pablo", "Moya","pablomoya@mindhub.com", passwordEncoder.encode("456qwe"));
+			client2.addRole("CLIENT");
 			clientRepository.save(client2);
+
+			Client admin = new Client("admin","Admin","admin@admin.com",passwordEncoder.encode("admin123"));
+			admin.addRole("ADMIN");
+			clientRepository.save(admin);
 
 			/*Creación de account 3*/
 
@@ -92,14 +102,25 @@ public class HomebankingApplication {
 
 			/*Creación de los loan para clients*/
 
-			ClientLoan clientLoan1 = new ClientLoan(400000,60,client1,loan1);
+			ClientLoan clientLoan1 = new ClientLoan(400000, 60);
+			clientLoan1.setClient(client1);
+			clientLoan1.setLoan(loan1);
 			clientLoanRepository.save(clientLoan1);
-			ClientLoan clientLoan2 = new ClientLoan(50000,12,client1,loan2);
+
+
+			ClientLoan clientLoan2 = new ClientLoan(50000, 12);
+			clientLoan2.setClient(client2);
+			clientLoan2.setLoan(loan2);
 			clientLoanRepository.save(clientLoan2);
 
-			ClientLoan clientLoan3 = new ClientLoan(100000,24,client2,loan2);
+			ClientLoan clientLoan3 = new ClientLoan(100000, 24);
+			clientLoan3.setClient(client1);
+			clientLoan3.setLoan(loan2);
 			clientLoanRepository.save(clientLoan3);
-			ClientLoan clientLoan4 = new ClientLoan(200000,36,client2,loan3);
+
+			ClientLoan clientLoan4 = new ClientLoan(200000, 36);
+			clientLoan4.setClient(client2);
+			clientLoan4.setLoan(loan3);
 			clientLoanRepository.save(clientLoan4);
 
 			/*Creación de Cards*/
