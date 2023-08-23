@@ -31,25 +31,10 @@ public class ClientController {
 
     @GetMapping("/clients/current")
     public ResponseEntity<ClientDTO> getClientAuth(Authentication authentication) {
-        if (authentication != null && authentication.isAuthenticated()) {
-            String clientEmail = authentication.getName();
-            Client client = clientRepository.findByEmail(clientEmail);
+        Optional<Client> clientOptional = Optional.ofNullable(clientRepository.findByEmail(authentication.getName()));
 
-            if (client != null) {
-                ClientDTO clientDTO = new ClientDTO(client);
-
-                // Verificar si el usuario es administrador y agregar el rol "ADMIN"
-                if (client.getRoles().contains("ADMIN")) {
-                    clientDTO.getRoles().add("ADMIN");
-                }else{
-                    clientDTO.getRoles().add("CLIENT");
-                }
-
-                return ResponseEntity.ok(clientDTO);
-            }
-        }
-
-        return ResponseEntity.notFound().build();
+        ClientDTO clientDTO = new ClientDTO(clientOptional.get());
+        return ResponseEntity.ok(clientDTO);
     }
 
     @GetMapping("/clients/{id}")
