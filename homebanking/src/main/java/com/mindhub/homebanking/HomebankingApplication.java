@@ -38,7 +38,7 @@ public class HomebankingApplication {
 			LocalDate today = LocalDate.now().plusDays(1);
 			LocalDate tomorrow = today.plusDays(1);
 
-			/*Creación de clientes 1 y 2 */
+			/*Creación de clientes 1,2 y admin */
 
 			Client client1 = new Client("Melba", "Morel","melba@mindhub.com", passwordEncoder.encode("123asd"));
 			clientRepository.save(client1);
@@ -82,10 +82,6 @@ public class HomebankingApplication {
 			transactionRepository.save(transaction6);
 
 			/*Creación de Loans*/
-
-			/*List<Integer> mortage =Stream.of(12,24,36,48,60).collect(toCollection(ArrayList::new));
-			List<Integer> personal =Stream.of(6,12,24).collect(toCollection(ArrayList::new));
-			List<Integer> automotive =Stream.of(6,12,24,36).collect(toCollection(ArrayList::new));*/
 
 			List<Integer> payments = Stream.of(6,12, 24, 36, 48, 60)
 					.collect(Collectors.toList());
