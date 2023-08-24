@@ -34,7 +34,6 @@ public class Client {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.roles.add("CLIENT");
     }
 
     //Getters and Setters
@@ -108,16 +107,5 @@ public class Client {
             loans.add(clientLoan.getLoan());
         }
         return loans;
-    }
-    public Set<String> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<String> roles) {
-        this.roles = roles;
-    }
-
-    public void addRole(String role) {
-        this.roles.add(role);
     }
 }
