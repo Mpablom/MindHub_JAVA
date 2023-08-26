@@ -10,16 +10,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.mindhub.homebanking.models.CardColor.*;
-import static com.mindhub.homebanking.models.CardType.CREDIT_CARD;
-import static com.mindhub.homebanking.models.CardType.DEBIT_CARD;
-import static com.mindhub.homebanking.models.TransactionType.CREDIT;
-import static com.mindhub.homebanking.models.TransactionType.DEBIT;
+import static com.mindhub.homebanking.models.CardType.*;
 
 
 @SpringBootApplication
@@ -62,7 +58,7 @@ public class HomebankingApplication {
 			accountRepository.save(account2);
 
 			/*Transacciones para account 1 y 2*/
-
+/*
 			LocalDateTime todayTransactions = LocalDateTime.now();
 
 			Transaction transaction1 = new Transaction(CREDIT,1000,"various",todayTransactions,account1);
@@ -74,12 +70,12 @@ public class HomebankingApplication {
 			Transaction transaction4 = new Transaction(DEBIT,-50000,"payment of services",todayTransactions,account2);
 			transactionRepository.save(transaction4);
 
-			/*Transacciones para account 3*/
+			*//*Transacciones para account 3*//*
 
 			Transaction transaction5 = new Transaction(CREDIT,150000,"crediting of assets",todayTransactions,account3);
 			transactionRepository.save(transaction5);
 			Transaction transaction6 = new Transaction(DEBIT,-100000,"payment of services",todayTransactions,account3);
-			transactionRepository.save(transaction6);
+			transactionRepository.save(transaction6);*/
 
 			/*Creación de Loans*/
 
@@ -122,12 +118,12 @@ public class HomebankingApplication {
 			String cardholder = client1.getFirstName() +" "+client1.getLastName();
 			String cardholder2 = client2.getFirstName()+" "+client2.getLastName();
 
-			Card card1 = new Card(cardholder,DEBIT_CARD,GOLD,"1234 5678 9012 3456",123,thruDate,fromDate,client1);
+			Card card1 = new Card(cardholder,DEBIT,GOLD,"1234 5678 9012 3456",123,thruDate,fromDate,client1);
 			cardRepository.save(card1);
-			Card card2 = new Card(cardholder,CREDIT_CARD,TITANIUM,"9876 5432 1098 7654",321,thruDate,fromDate,client1);
+			Card card2 = new Card(cardholder,CREDIT,TITANIUM,"9876 5432 1098 7654",321,thruDate,fromDate,client1);
 			cardRepository.save(card2);
 
-			Card card3 = new Card(cardholder2,CREDIT_CARD,SILVER,"1231 2312 3123 1231",678,thruDate,fromDate,client2);
+			Card card3 = new Card(cardholder2,CREDIT,SILVER,"1231 2312 3123 1231",678,thruDate,fromDate,client2);
 			cardRepository.save(card3);
 		};
 	}
