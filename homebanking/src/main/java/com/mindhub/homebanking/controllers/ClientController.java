@@ -1,7 +1,9 @@
 package com.mindhub.homebanking.controllers;
 
 import com.mindhub.homebanking.DTO.ClientDTO;
+import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
+import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,8 +12,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import static java.util.stream.Collectors.toList;
 
@@ -20,6 +24,8 @@ import static java.util.stream.Collectors.toList;
 public class ClientController {
     @Autowired
     private ClientRepository clientRepository;
+    @Autowired
+    private AccountRepository accountRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -30,11 +36,9 @@ public class ClientController {
     }
 
     @GetMapping("/clients/current")
-    public ResponseEntity<ClientDTO> getClientAuth(Authentication authentication) {
-        Optional<Client> clientOptional = Optional.ofNullable(clientRepository.findByEmail(authentication.getName()));
-
-        ClientDTO clientDTO = new ClientDTO(clientOptional.get());
-        return ResponseEntity.ok(clientDTO);
+    public ClientDTO getClientAuth(Authentication authentication) {
+        Client client = clientRepository.findByEmail(authentication.getName());
+        return new ClientDTO(client);
     }
 
     @GetMapping("/clients/{id}")
@@ -71,12 +75,32 @@ public class ClientController {
             return new ResponseEntity<>("Missing data,password must be at least 4 characters long", HttpStatus.FORBIDDEN);
         }
 
-
         if (clientRepository.findByEmail(email) !=  null) {
             return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN);
         }
 
-        clientRepository.save(new Client(firstName, lastName, email, passwordEncoder.encode(password)));
+        Client client= new Client(firstName, lastName, email, passwordEncoder.encode(password));
+        clientRepository.save(client);
+
+        LocalDate today = LocalDate.now();
+        String accountNumber = generateAccountNumber();
+        Account newAccount = new Account(accountNumber, today, 0.0, client);
+        accountRepository.save(newAccount);
+
         return new ResponseEntity<>("Client successfully created",HttpStatus.CREATED);
+    }
+
+    // genera los números aleatorios de la cuenta
+
+    public String generateAccountNumber(){
+        StringBuilder accountNumber = new StringBuilder("VIN-");
+        Random random = new Random();
+
+        for (int i = 0; i < 8; i++) {
+            int randomNumber = random.nextInt(10);
+            accountNumber.append(randomNumber);
+        }
+
+        return accountNumber.toString();
     }
 }
