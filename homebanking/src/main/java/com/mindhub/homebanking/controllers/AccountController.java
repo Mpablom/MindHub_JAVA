@@ -15,10 +15,9 @@ import java.util.List;
 public class AccountController {
 
     @Autowired
-    AccountService accountService;
-
+    private AccountService accountService;
     @Autowired
-    ClientRepository clientRepository;
+    private ClientRepository clientRepository;
 
     @GetMapping("/accounts")
     public List<AccountDTO> getAccounts(){
