@@ -10,7 +10,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private TransactionType type;
-    private int amount;
+    private Integer amount;
     private String description;
     private LocalDateTime date;
     @ManyToOne(fetch = FetchType.EAGER)
@@ -21,7 +21,7 @@ public class Transaction {
 
     public Transaction() {
     }
-    public Transaction(TransactionType type, int amount, String description, LocalDateTime date, Account account) {
+    public Transaction(TransactionType type, Integer amount, String description, LocalDateTime date, Account account) {
         this.type = type;
         this.amount = amount;
         this.description = description;
@@ -47,11 +47,11 @@ public class Transaction {
         this.type = type;
     }
 
-    public int getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(Integer amount) {
         this.amount = amount;
     }
 
