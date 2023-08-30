@@ -32,4 +32,8 @@ public class AccountController {
     public ResponseEntity<Object> createAccount(Authentication authentication) {
         return accountService.createAccount(authentication);
     }
+    @GetMapping("/clients/current/accounts")
+    public List<AccountDTO> getClientAccounts(Authentication authentication) {
+        return accountService.getClientAccounts(authentication.getName());
+    }
 }

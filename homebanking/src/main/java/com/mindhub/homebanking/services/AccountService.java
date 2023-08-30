@@ -12,4 +12,6 @@ public interface AccountService {
     ResponseEntity<AccountDTO> getAccount(@PathVariable Long id);
     ResponseEntity<Object> createAccount(Authentication authentication);
     String generateAccountNumber();
+    ResponseEntity<String> performTransaction(Integer amount, String description, String sourceAccountNumber, String destinationAccountNumber, Authentication authentication);
+    List<AccountDTO> getClientAccounts(String clientEmail);
 }
