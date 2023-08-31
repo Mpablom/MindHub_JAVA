@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface AccountService {
     List<AccountDTO> getAccounts();
-    ResponseEntity<AccountDTO> getAccount(@PathVariable Long id);
+    ResponseEntity<AccountDTO> getAccount(Long id, Authentication authentication);
     ResponseEntity<Object> createAccount(Authentication authentication);
     String generateAccountNumber();
     ResponseEntity<String> performTransaction(Integer amount, String description, String sourceAccountNumber, String destinationAccountNumber, Authentication authentication);
