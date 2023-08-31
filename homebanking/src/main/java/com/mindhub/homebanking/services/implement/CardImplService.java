@@ -7,7 +7,6 @@ import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.CardRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.services.CardService;
-import com.mindhub.homebanking.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,17 +20,24 @@ import java.util.Random;
 @Service
 public class CardImplService implements CardService {
 
+     private final CardRepository cardRepository;
+    private final ClientRepository clientRepository;
+
     @Autowired
-     private CardRepository cardRepository;
-    @Autowired
-    private ClientRepository clientRepository;
+    public CardImplService(CardRepository cardRepository, ClientRepository clientRepository) {
+        this.cardRepository = cardRepository;
+        this.clientRepository = clientRepository;
+    }
 
 
     @Override
     public ResponseEntity<Object> createCard(@RequestParam CardType cardType, @RequestParam CardColor cardColor, Authentication authentication){
         LocalDate today = LocalDate.now();
-
         LocalDate expiration = today.plusYears(5);
+
+        if (cardType == null || cardColor == null) {
+            return new ResponseEntity<>("Card type and card color cannot be empty", HttpStatus.BAD_REQUEST);
+        }
 
         Client client = clientRepository.findByEmail(authentication.getName());
 
@@ -60,19 +66,22 @@ public class CardImplService implements CardService {
 
     @Override
     public String generateCardNumber() {
-        StringBuilder cardNumber = new StringBuilder();
-        Random random = new Random();
+        String cardNumber;
+        do {
+            cardNumber = "";
+            Random random = new Random();
 
-        for (int i = 0; i < 16; i++) {
-            int randomNumber = random.nextInt(10);
-            cardNumber.append(randomNumber);
+            for (int i = 0; i < 16; i++) {
+                int randomNumber = random.nextInt(10);
+                cardNumber += randomNumber;
 
-            if ((i + 1) % 4 == 0 && i != 15) {
-                cardNumber.append(" ");
+                if ((i + 1) % 4 == 0 && i != 15) {
+                    cardNumber += " ";
+                }
             }
-        }
+        } while (cardRepository.existsByNumber(cardNumber));
 
-        return cardNumber.toString();
+        return cardNumber;
     }
 
     @Override

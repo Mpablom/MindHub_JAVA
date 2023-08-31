@@ -17,25 +17,27 @@ import java.time.LocalDateTime;
 @Service
 public class TransactionImplService implements TransactionService {
 
+    private final AccountRepository accountRepository;
+    private final TransactionRepository transactionRepository;
 
     @Autowired
-    private AccountRepository accountRepository;
-
-    @Autowired
-    private TransactionRepository transactionRepository;
+    public TransactionImplService(AccountRepository accountRepository, TransactionRepository transactionRepository) {
+        this.accountRepository = accountRepository;
+        this.transactionRepository = transactionRepository;
+    }
 
 
     @Transactional
-    public ResponseEntity<String> performTransaction(Integer amount, String description, String sourceAccountNumber, String destinationAccountNumber, Authentication authentication) {
+    public ResponseEntity<Object> performTransaction(Integer amount, String description, String sourceAccountNumber, String destinationAccountNumber, Authentication authentication) {
         Account sourceAccount = accountRepository.findByNumber(sourceAccountNumber);
         Account destinationAccount = accountRepository.findByNumber(destinationAccountNumber);
 
         if (sourceAccount == null) {
-            throw new RuntimeException("Source account not found");
+            return ResponseEntity.badRequest().body("Source account not found");
         }
 
         if (destinationAccount == null) {
-            throw new RuntimeException("Destination account not found");
+            return ResponseEntity.badRequest().body("Destination account not found");
         }
 
         if (sourceAccountNumber.equals(destinationAccountNumber)) {
@@ -50,16 +52,10 @@ public class TransactionImplService implements TransactionService {
             return ResponseEntity.badRequest().body("Insufficient balance in source account");
         }
 
-        try {
-            // Llama al método performTransaction del servicio actual (no necesitas inyectar TransactionService aquí)
-            performTransactionInternal(amount, description, sourceAccount, destinationAccount);
-            return ResponseEntity.ok("Transaction successful");
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        performTransactionInternal(amount, description, sourceAccount, destinationAccount);
+        return ResponseEntity.ok("Transaction successful");
     }
 
-    // Método para realizar la transacción internamente
     private void performTransactionInternal(Integer amount, String description, Account sourceAccount, Account destinationAccount) {
         Transaction debitTransaction = new Transaction(TransactionType.DEBIT, -amount, description, LocalDateTime.now(), sourceAccount);
         Transaction creditTransaction = new Transaction(TransactionType.CREDIT, amount, description, LocalDateTime.now(), destinationAccount);

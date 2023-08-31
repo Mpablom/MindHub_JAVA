@@ -24,14 +24,18 @@ import static java.util.stream.Collectors.toList;
 
 @Service
 public class ClientImplService implements ClientService {
+    private final ClientRepository clientRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final AccountRepository accountRepository;
+    private final AccountService accountService;
+
     @Autowired
-    private ClientRepository clientRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private AccountRepository accountRepository;
-    @Autowired
-    private AccountService accountService;
+    public ClientImplService(ClientRepository clientRepository, PasswordEncoder passwordEncoder, AccountRepository accountRepository, AccountService accountService) {
+        this.clientRepository = clientRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.accountRepository = accountRepository;
+        this.accountService = accountService;
+    }
 
     @Override
     public List<ClientDTO> getClients(){
