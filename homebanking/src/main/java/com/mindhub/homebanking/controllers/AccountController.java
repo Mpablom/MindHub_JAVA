@@ -24,8 +24,8 @@ public class AccountController {
         return accountService.getAccounts();
     }
     @GetMapping("/accounts/{id}")
-    public ResponseEntity<AccountDTO> getAccount(@PathVariable Long id){
-        return accountService.getAccount(id);
+    public ResponseEntity<AccountDTO> getAccount(@PathVariable Long id, Authentication authentication) {
+        return accountService.getAccount(id, authentication);
     }
 
     @PostMapping("/clients/current/accounts")

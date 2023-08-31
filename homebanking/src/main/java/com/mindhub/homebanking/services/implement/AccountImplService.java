@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -37,11 +38,22 @@ public class AccountImplService implements AccountService {
 
 
     @Override
-    public ResponseEntity<AccountDTO> getAccount(@PathVariable Long id){
-        return accountRepository.findById(id)
-                .map(AccountDTO::new)
-                .map(ResponseEntity::ok)
-                .orElse(null);
+    public ResponseEntity<AccountDTO> getAccount(Long id, Authentication authentication) {
+        Optional<Account> optionalAccount = accountRepository.findById(id);
+
+        if (optionalAccount.isPresent()) {
+            Account account = optionalAccount.get();
+            Client authenticatedClient = clientRepository.findByEmail(authentication.getName());
+
+            if (account.getClient().equals(authenticatedClient)) {
+                AccountDTO accountDTO = new AccountDTO(account);
+                return ResponseEntity.ok(accountDTO);
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @Override
