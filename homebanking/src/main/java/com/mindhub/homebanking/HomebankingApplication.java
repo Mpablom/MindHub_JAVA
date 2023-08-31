@@ -103,7 +103,7 @@ public class HomebankingApplication {
 			clientLoanRepository.save(clientLoan4);
 
 			/*Creación de Cards*/
-			LocalDate fromDate = LocalDate.now();
+			/*LocalDate fromDate = LocalDate.now();
 			LocalDate thruDate = fromDate.plusYears(5);
 			String cardholder = client1.getFirstName() +" "+client1.getLastName();
 			String cardholder2 = client2.getFirstName()+" "+client2.getLastName();
@@ -114,7 +114,7 @@ public class HomebankingApplication {
 			cardRepository.save(card2);
 
 			Card card3 = new Card(cardholder2,CREDIT,SILVER,"1231 2312 3123 1231",678,thruDate,fromDate,client2);
-			cardRepository.save(card3);
+			cardRepository.save(card3);*/
 		};
 	}
 }
