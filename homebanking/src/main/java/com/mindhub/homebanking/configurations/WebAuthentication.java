@@ -23,28 +23,25 @@ import java.util.List;
 public class WebAuthentication extends GlobalAuthenticationConfigurerAdapter {
 
     @Autowired
-    ClientRepository clientRepository;
+    private ClientRepository clientRepository;
 
     @Override
     public void init(AuthenticationManagerBuilder auth) throws Exception {
 
-        auth.userDetailsService(inputName-> {
+        auth.userDetailsService(inputName -> {
 
             Client client = clientRepository.findByEmail(inputName);
 
-            if (client.getEmail().contains("admin")) {
-                return new User(client.getEmail(), client.getPassword(),
-                        AuthorityUtils.createAuthorityList("ADMIN"));
-            }
             if (client != null) {
-
-                return new User(client.getEmail() , client.getPassword(),
-                        AuthorityUtils.createAuthorityList("CLIENT"));
-
+                if (client.getEmail().contains("admin")) {
+                    return new User(client.getEmail(), client.getPassword(),
+                            AuthorityUtils.createAuthorityList("ADMIN"));
+                } else {
+                    return new User(client.getEmail(), client.getPassword(),
+                            AuthorityUtils.createAuthorityList("CLIENT"));
+                }
             } else {
-
                 throw new UsernameNotFoundException("Unknown user: " + inputName);
-
             }
 
         });

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDate;
@@ -23,16 +24,17 @@ import java.util.stream.Collectors;
 
 @Service
 public class AccountImplService implements AccountService {
-    @Autowired
-    private AccountRepository accountRepository;
-    @Autowired
-    private ClientRepository clientRepository;
-    private TransactionService transactionService;
 
-    @Autowired
-    public void setTransactionService(TransactionService transactionService) {
-        this.transactionService = transactionService;
+    private final AccountRepository accountRepository;
+    private final ClientRepository clientRepository;
+    private final TransactionService transactionService;
+
+    public AccountImplService(AccountRepository accountRepository,ClientRepository clientRepository,TransactionService transactionService){
+        this.accountRepository=accountRepository;
+        this.clientRepository=clientRepository;
+        this.transactionService=transactionService;
     }
+
 
     @Override
     public ResponseEntity<AccountDTO> getAccount(@PathVariable Long id){
@@ -50,9 +52,18 @@ public class AccountImplService implements AccountService {
 
     @Override
     public ResponseEntity<Object> createAccount(Authentication authentication){
+        if (authentication == null || StringUtils.isEmpty(authentication.getName())) {
+            return new ResponseEntity<>("Authentication data is missing", HttpStatus.BAD_REQUEST);
+        }
+
+        String clientEmail = authentication.getName();
+        if (StringUtils.isEmpty(clientEmail)) {
+            return new ResponseEntity<>("Client email is missing in authentication", HttpStatus.BAD_REQUEST);
+        }
+
         LocalDate today = LocalDate.now();
 
-        Client client = clientRepository.findByEmail(authentication.getName());
+        Client client = clientRepository.findByEmail(clientEmail);
 
         if (client == null) {
             return new ResponseEntity<>("Client not found", HttpStatus.NOT_FOUND);
@@ -62,21 +73,24 @@ public class AccountImplService implements AccountService {
         }
 
         String accountNumber = generateAccountNumber();
-        Account newAccount = new Account(accountNumber,today,0.0,client);
+        Account newAccount = new Account(accountNumber, today, 0.0, client);
         accountRepository.save(newAccount);
 
         return new ResponseEntity<>("Account successfully created", HttpStatus.CREATED);
     }
 
     @Override
-    public String generateAccountNumber(){
-        StringBuilder accountNumber = new StringBuilder("VIN-");
-        Random random = new Random();
+    public String generateAccountNumber() {
+        StringBuilder accountNumber;
+        do {
+            accountNumber = new StringBuilder("VIN-");
+            Random random = new Random();
 
-        for (int i = 0; i < 8; i++) {
-            int randomNumber = random.nextInt(10);
-            accountNumber.append(randomNumber);
-        }
+            for (int i = 0; i < 8; i++) {
+                int randomNumber = random.nextInt(10);
+                accountNumber.append(randomNumber);
+            }
+        } while (accountRepository.existsByNumber(accountNumber.toString()));
 
         return accountNumber.toString();
     }

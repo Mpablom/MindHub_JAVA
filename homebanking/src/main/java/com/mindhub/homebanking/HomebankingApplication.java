@@ -31,7 +31,7 @@ public class HomebankingApplication {
 	public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository, TransactionRepository transactionRepository, LoanRepository loanRepository, ClientLoanRepository clientLoanRepository, CardRepository cardRepository) {
 		return (args) -> {
 
-			LocalDate today = LocalDate.now().plusDays(1);
+			LocalDate today = LocalDate.now();
 			LocalDate tomorrow = today.plusDays(1);
 
 			/*Creación de clientes 1,2 y admin */

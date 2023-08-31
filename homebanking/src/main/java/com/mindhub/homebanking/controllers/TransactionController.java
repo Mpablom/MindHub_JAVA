@@ -19,18 +19,23 @@ public class TransactionController {
     private TransactionService transactionService;
 
     @PostMapping("/transactions")
-    public ResponseEntity<String> performTransaction(
+    public ResponseEntity<Object> performTransaction(
             @RequestParam String fromAccountNumber,
             @RequestParam String toAccountNumber,
             @RequestParam Integer amount,
             @RequestParam String description,
             Authentication authentication) {
 
-        try {
-            transactionService.performTransaction(amount, description, fromAccountNumber, toAccountNumber, authentication);
+        if (fromAccountNumber.equals("") || toAccountNumber.equals("") || description.equals("")) {
+            return ResponseEntity.badRequest().body("Missing or invalid parameters");
+        }
+
+        ResponseEntity<Object> response = transactionService.performTransaction(amount, description, fromAccountNumber, toAccountNumber, authentication);
+
+        if (response.getStatusCodeValue() == 200) {
             return ResponseEntity.ok("Transaction successful");
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+        } else {
+            return ResponseEntity.status(response.getStatusCodeValue()).body(response.getBody());
         }
     }
 }
