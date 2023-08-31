@@ -59,16 +59,6 @@ public class HomebankingApplication {
 
 			/*Transacciones para account 1 y 2*/
 /*
-			LocalDateTime todayTransactions = LocalDateTime.now();
-
-			Transaction transaction1 = new Transaction(CREDIT,1000,"various",todayTransactions,account1);
-			transactionRepository.save(transaction1);
-			Transaction transaction2 = new Transaction(DEBIT,-700,"debit coke",todayTransactions,account1);
-			transactionRepository.save(transaction2);
-			Transaction transaction3 = new Transaction(CREDIT,210000,"crediting of assets",todayTransactions,account2);
-			transactionRepository.save(transaction3);
-			Transaction transaction4 = new Transaction(DEBIT,-50000,"payment of services",todayTransactions,account2);
-			transactionRepository.save(transaction4);
 
 			*//*Transacciones para account 3*//*
 
