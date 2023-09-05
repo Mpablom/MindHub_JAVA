@@ -2,12 +2,14 @@ package com.mindhub.homebanking.DTO;
 
 import com.mindhub.homebanking.models.ClientLoan;
 
+import java.util.List;
+
 public class ClientLoanDTO {
     private long id;
     private long loanId;
     private String name;
     private double amount;
-    private int payments;
+    private List<Integer> payments;
 
     //Constructor
 
@@ -37,7 +39,7 @@ public class ClientLoanDTO {
         return amount;
     }
 
-    public int getPayments() {
+    public List<Integer> getPayments() {
         return payments;
     }
 

@@ -18,8 +18,6 @@ public class ClientController {
     @Autowired
     private ClientService clientService;
     @Autowired
-    private AccountRepository accountRepository;
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/clients")

@@ -81,7 +81,7 @@ public class HomebankingApplication {
 
 			/*Creación de los loan para clients*/
 
-			ClientLoan clientLoan1 = new ClientLoan(400000, 60);
+			/*ClientLoan clientLoan1 = new ClientLoan(400000, 60);
 			clientLoan1.setClient(client1);
 			clientLoan1.setLoan(loan1);
 			clientLoanRepository.save(clientLoan1);
@@ -101,7 +101,7 @@ public class HomebankingApplication {
 			clientLoan4.setClient(client2);
 			clientLoan4.setLoan(loan3);
 			clientLoanRepository.save(clientLoan4);
-
+*/
 			/*Creación de Cards*/
 			/*LocalDate fromDate = LocalDate.now();
 			LocalDate thruDate = fromDate.plusYears(5);

@@ -32,24 +32,9 @@ public class TransactionImplService implements TransactionService {
         Account sourceAccount = accountRepository.findByNumber(sourceAccountNumber);
         Account destinationAccount = accountRepository.findByNumber(destinationAccountNumber);
 
-        if (sourceAccount == null) {
-            return ResponseEntity.badRequest().body("Source account not found");
-        }
-
-        if (destinationAccount == null) {
-            return ResponseEntity.badRequest().body("Destination account not found");
-        }
-
-        if (sourceAccountNumber.equals(destinationAccountNumber)) {
-            return ResponseEntity.badRequest().body("Source and destination accounts must be different");
-        }
-
-        if (!sourceAccount.getClient().getEmail().equals(authentication.getName())) {
-            return ResponseEntity.badRequest().body("Source account does not belong to authenticated user");
-        }
-
-        if (sourceAccount.getBalance() < amount) {
-            return ResponseEntity.badRequest().body("Insufficient balance in source account");
+        ResponseEntity<Object> validationResponse = validateTransaction(sourceAccount, destinationAccount, authentication, amount);
+        if (validationResponse != null) {
+            return validationResponse;
         }
 
         performTransactionInternal(amount, description, sourceAccount, destinationAccount);
@@ -68,5 +53,28 @@ public class TransactionImplService implements TransactionService {
 
         accountRepository.save(sourceAccount);
         accountRepository.save(destinationAccount);
+    }
+    private ResponseEntity<Object> validateTransaction(Account sourceAccount, Account destinationAccount, Authentication authentication, Integer amount) {
+        if (sourceAccount == null) {
+            return ResponseEntity.badRequest().body("Source account not found");
+        }
+
+        if (destinationAccount == null) {
+            return ResponseEntity.badRequest().body("Destination account not found");
+        }
+
+        if (sourceAccount.getNumber().equals(destinationAccount.getNumber())) {
+            return ResponseEntity.badRequest().body("Source and destination accounts must be different");
+        }
+
+        if (!sourceAccount.getClient().getEmail().equals(authentication.getName())) {
+            return ResponseEntity.badRequest().body("Source account does not belong to authenticated user");
+        }
+
+        if (sourceAccount.getBalance() < amount) {
+            return ResponseEntity.badRequest().body("Insufficient balance in source account");
+        }
+
+        return null;
     }
 }
