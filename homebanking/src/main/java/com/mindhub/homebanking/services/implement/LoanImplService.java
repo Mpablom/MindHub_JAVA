@@ -60,12 +60,13 @@ public class LoanImplService implements LoanService {
         ClientDTO authenticatedClientDTO = clientService.getClientAuth(authentication);
         Account account = accountRepository.findByNumber(loanApplicationDTO.getToAccountNumber());
 
-        int loanTotalAmount = (int) (loanApplicationDTO.getAmount() * 1.20);
+        int loanAmount =(int) loanApplicationDTO.getAmount();
+        int totalDebt = (int) (loanAmount * 1.20); // Deuda total incluyendo intereses
 
-        ClientLoan clientLoan = new ClientLoan(loanTotalAmount, Collections.singletonList(loanApplicationDTO.getPayments()));
+        ClientLoan clientLoan = new ClientLoan(totalDebt, Collections.singletonList(loanApplicationDTO.getPayments()));
 
         // Obtener el cliente autenticado
-        Client authenticatedClient = clientRepository .findById(authenticatedClientDTO.getId()).orElse(null);
+        Client authenticatedClient = clientRepository.findById(authenticatedClientDTO.getId()).orElse(null);
 
         if (authenticatedClient != null) {
             // Establecer el cliente autenticado en ClientLoan
@@ -81,14 +82,16 @@ public class LoanImplService implements LoanService {
         clientLoanRepository.save(clientLoan);
 
         String transactionDescription = loan.getName() + " loan approved";
-        Transaction transaction = new Transaction(TransactionType.CREDIT, loanTotalAmount, transactionDescription, LocalDateTime.now(), account);
+        Transaction transaction = new Transaction(TransactionType.CREDIT, loanAmount, transactionDescription, LocalDateTime.now(), account);
         transactionRepository.save(transaction);
 
-        account.setBalance(account.getBalance() + loanTotalAmount);
+        // Actualizar el saldo de la cuenta
+        account.setBalance(account.getBalance() + loanAmount);
         accountRepository.save(account);
 
         return new ResponseEntity<>("Loan application successful", HttpStatus.CREATED);
     }
+
 
 
     private ResponseEntity<Object> validateLoan(LoanApplicationDTO loanApplicationDTO) {
