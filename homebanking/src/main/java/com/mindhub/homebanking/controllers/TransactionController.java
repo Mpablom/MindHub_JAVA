@@ -22,7 +22,7 @@ public class TransactionController {
     public ResponseEntity<Object> performTransaction(
             @RequestParam String fromAccountNumber,
             @RequestParam String toAccountNumber,
-            @RequestParam Integer amount,
+            @RequestParam Double amount,
             @RequestParam String description,
             Authentication authentication) {
 

@@ -108,7 +108,7 @@ public class AccountImplService implements AccountService {
     }
 
     @Transactional
-    public ResponseEntity<String> performTransaction(Integer amount, String description, String sourceAccountNumber, String destinationAccountNumber, Authentication authentication) {
+    public ResponseEntity<String> performTransaction(Double amount, String description, String sourceAccountNumber, String destinationAccountNumber, Authentication authentication) {
         Account sourceAccount = accountRepository.findByNumber(sourceAccountNumber);
         Account destinationAccount = accountRepository.findByNumber(destinationAccountNumber);
 
