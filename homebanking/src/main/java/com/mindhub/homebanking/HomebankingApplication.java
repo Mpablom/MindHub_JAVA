@@ -20,21 +20,21 @@ import static com.mindhub.homebanking.models.CardType.*;
 
 @SpringBootApplication
 public class HomebankingApplication {
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	/*@Autowired
+	private PasswordEncoder passwordEncoder;*/
 
 	public static void main(String[] args) {
 		SpringApplication.run(HomebankingApplication.class, args);
 		System.out.println("STARTED!!");
 	}
-	@Bean
+	/*@Bean
 	public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository, TransactionRepository transactionRepository, LoanRepository loanRepository, ClientLoanRepository clientLoanRepository, CardRepository cardRepository) {
 		return (args) -> {
 
 			LocalDate today = LocalDate.now();
 			LocalDate tomorrow = today.plusDays(1);
 
-			/*Creación de clientes 1,2 y admin */
+			*//*Creación de clientes 1,2 y admin *//*
 
 			Client client1 = new Client("Melba", "Morel","melba@mindhub.com", passwordEncoder.encode("123asd"));
 			clientRepository.save(client1);
@@ -45,29 +45,29 @@ public class HomebankingApplication {
 			Client admin = new Client("admin","Admin","admin@admin.com",passwordEncoder.encode("admin123"));
 			clientRepository.save(admin);
 
-			/*Creación de account 3*/
+			*//*Creación de account 3*//*
 
 			Account account3 = new Account("VIN-003",today,2000,client2);
 			accountRepository.save(account3);
 
-			/*Creación de account 1 y 2*/
+			*//*Creación de account 1 y 2*//*
 
 			Account account1 = new Account("VIN-001",today,5000,client1);
 			accountRepository.save(account1);
 			Account account2 = new Account("VIN-002", tomorrow, 7500,client1);
 			accountRepository.save(account2);
 
-			/*Transacciones para account 1 y 2*/
-/*
+			*//*Transacciones para account 1 y 2*//*
+*//*
 
-			*//*Transacciones para account 3*//*
+			*//**//*Transacciones para account 3*//**//*
 
 			Transaction transaction5 = new Transaction(CREDIT,150000,"crediting of assets",todayTransactions,account3);
 			transactionRepository.save(transaction5);
 			Transaction transaction6 = new Transaction(DEBIT,-100000,"payment of services",todayTransactions,account3);
-			transactionRepository.save(transaction6);*/
+			transactionRepository.save(transaction6);*//*
 
-			/*Creación de Loans*/
+			*//*Creación de Loans*//*
 
 			List<Integer> payments = Stream.of(6,12, 24, 36, 48, 60)
 					.collect(Collectors.toList());
@@ -79,9 +79,9 @@ public class HomebankingApplication {
 			Loan loan3 = new Loan("Automotive",300000,payments.subList(0,4));
 			loanRepository.save(loan3);
 
-			/*Creación de los loan para clients*/
+			*//*Creación de los loan para clients*//*
 
-			/*ClientLoan clientLoan1 = new ClientLoan(400000, 60);
+			*//*ClientLoan clientLoan1 = new ClientLoan(400000, 60);
 			clientLoan1.setClient(client1);
 			clientLoan1.setLoan(loan1);
 			clientLoanRepository.save(clientLoan1);
@@ -101,9 +101,9 @@ public class HomebankingApplication {
 			clientLoan4.setClient(client2);
 			clientLoan4.setLoan(loan3);
 			clientLoanRepository.save(clientLoan4);
-*/
-			/*Creación de Cards*/
-			/*LocalDate fromDate = LocalDate.now();
+*//*
+			*//*Creación de Cards*//*
+			*//*LocalDate fromDate = LocalDate.now();
 			LocalDate thruDate = fromDate.plusYears(5);
 			String cardholder = client1.getFirstName() +" "+client1.getLastName();
 			String cardholder2 = client2.getFirstName()+" "+client2.getLastName();
@@ -114,7 +114,7 @@ public class HomebankingApplication {
 			cardRepository.save(card2);
 
 			Card card3 = new Card(cardholder2,CREDIT,SILVER,"1231 2312 3123 1231",678,thruDate,fromDate,client2);
-			cardRepository.save(card3);*/
+			cardRepository.save(card3);*//*
 		};
-	}
+	}*/
 }

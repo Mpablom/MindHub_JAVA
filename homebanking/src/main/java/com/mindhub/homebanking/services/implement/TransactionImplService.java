@@ -28,7 +28,7 @@ public class TransactionImplService implements TransactionService {
 
 
     @Transactional
-    public ResponseEntity<Object> performTransaction(Integer amount, String description, String sourceAccountNumber, String destinationAccountNumber, Authentication authentication) {
+    public ResponseEntity<Object> performTransaction(Double amount, String description, String sourceAccountNumber, String destinationAccountNumber, Authentication authentication) {
         Account sourceAccount = accountRepository.findByNumber(sourceAccountNumber);
         Account destinationAccount = accountRepository.findByNumber(destinationAccountNumber);
 
@@ -41,7 +41,7 @@ public class TransactionImplService implements TransactionService {
         return ResponseEntity.ok("Transaction successful");
     }
 
-    private void performTransactionInternal(Integer amount, String description, Account sourceAccount, Account destinationAccount) {
+    private void performTransactionInternal(Double amount, String description, Account sourceAccount, Account destinationAccount) {
         Transaction debitTransaction = new Transaction(TransactionType.DEBIT, -amount, description, LocalDateTime.now(), sourceAccount);
         Transaction creditTransaction = new Transaction(TransactionType.CREDIT, amount, description, LocalDateTime.now(), destinationAccount);
 
@@ -54,7 +54,7 @@ public class TransactionImplService implements TransactionService {
         accountRepository.save(sourceAccount);
         accountRepository.save(destinationAccount);
     }
-    private ResponseEntity<Object> validateTransaction(Account sourceAccount, Account destinationAccount, Authentication authentication, Integer amount) {
+    private ResponseEntity<Object> validateTransaction(Account sourceAccount, Account destinationAccount, Authentication authentication, Double amount) {
         if (sourceAccount == null) {
             return ResponseEntity.badRequest().body("Source account not found");
         }

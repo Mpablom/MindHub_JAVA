@@ -60,8 +60,8 @@ public class LoanImplService implements LoanService {
         ClientDTO authenticatedClientDTO = clientService.getClientAuth(authentication);
         Account account = accountRepository.findByNumber(loanApplicationDTO.getToAccountNumber());
 
-        int loanAmount =(int) loanApplicationDTO.getAmount();
-        int totalDebt = (int) (loanAmount * 1.20); // Deuda total incluyendo intereses
+        double loanAmount = loanApplicationDTO.getAmount();
+        double totalDebt = loanAmount * 1.20; // Deuda total incluyendo intereses
 
         ClientLoan clientLoan = new ClientLoan(totalDebt, Collections.singletonList(loanApplicationDTO.getPayments()));
 
@@ -69,14 +69,11 @@ public class LoanImplService implements LoanService {
         Client authenticatedClient = clientRepository.findById(authenticatedClientDTO.getId()).orElse(null);
 
         if (authenticatedClient != null) {
-            // Establecer el cliente autenticado en ClientLoan
             clientLoan.setClient(authenticatedClient);
         } else {
-            // Manejar el caso donde no se proporciona un cliente válido
             return new ResponseEntity<>("Invalid client", HttpStatus.BAD_REQUEST);
         }
 
-        // Establecer el préstamo en ClientLoan
         clientLoan.setLoan(loan);
 
         clientLoanRepository.save(clientLoan);
