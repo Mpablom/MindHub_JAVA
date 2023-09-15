@@ -1,9 +1,8 @@
-FROM gradle:7.5.1-jdk11-alpine
+# Usar la imagen base de Gradle
+FROM docker.io/library/gradle:7.5.1-jdk11-alpine@sha256:df3978bc9721b713f1494380e20afa1c41a7d97b17782e8e7813dd019179c146
 
-COPY . .
+COPY . /home/gradle
+
+WORKDIR /home/gradle
 
 RUN gradle build
-
-EXPOSE 8080
-
-ENTRYPOINT ["java","-jar","build/libs/homebanking-0.0.1-SNAPSHOT.jar"]
