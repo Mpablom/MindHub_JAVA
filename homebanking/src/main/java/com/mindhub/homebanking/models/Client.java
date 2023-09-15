@@ -2,8 +2,10 @@ package com.mindhub.homebanking.models;
 
 import javax.persistence.*;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 public class Client {
@@ -24,16 +26,19 @@ public class Client {
     private Set<String> roles = new HashSet<>();
 
     private String password;
+    private int activeAccountCount;
+
 
 //Constructors
 
     public Client() {
     }
-    public Client(String firstName, String lastName, String email,String password) {
+    public Client(String firstName, String lastName, String email, String password, int activeAccountCount) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.activeAccountCount = activeAccountCount;
     }
 
     //Getters and Setters
@@ -107,5 +112,18 @@ public class Client {
             loans.add(clientLoan.getLoan());
         }
         return loans;
+    }
+
+    public Collection<Account> getActiveAccounts() {
+        return accounts.stream()
+                .filter(Account::isActive)
+                .collect(Collectors.toList());
+    }
+    public int getActiveAccountCount() {
+        return activeAccountCount;
+    }
+
+    public void setActiveAccountCount(int activeAccountCount) {
+        this.activeAccountCount = activeAccountCount;
     }
 }

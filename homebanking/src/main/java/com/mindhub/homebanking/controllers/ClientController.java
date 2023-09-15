@@ -1,8 +1,11 @@
 package com.mindhub.homebanking.controllers;
 
 import com.mindhub.homebanking.DTO.ClientDTO;
+import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
-import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.services.AccountService;
+import com.mindhub.homebanking.services.ClientService;
+import com.mindhub.homebanking.utils.AccountUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,48 +13,48 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
+
 
 @RestController
 @RequestMapping("/api")
 public class ClientController {
+    private final ClientService clientService;
+    private final PasswordEncoder passwordEncoder;
+    private final AccountService accountService;
+
     @Autowired
-    private ClientRepository clientRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public ClientController(ClientService clientService, PasswordEncoder passwordEncoder, AccountService accountService) {
+        this.clientService = clientService;
+        this.passwordEncoder = passwordEncoder;
+        this.accountService = accountService;
+    }
 
     @GetMapping("/clients")
     public List<ClientDTO> getClients(){
-        return clientRepository.findAll()
-                .stream().map(ClientDTO::new).collect(toList());
+        return clientService.findAll().stream().map(ClientDTO::new).collect(toList());
     }
 
     @GetMapping("/clients/current")
-    public ResponseEntity<ClientDTO> getClientAuth(Authentication authentication) {
-        Optional<Client> clientOptional = Optional.ofNullable(clientRepository.findByEmail(authentication.getName()));
-
-        ClientDTO clientDTO = new ClientDTO(clientOptional.get());
-        return ResponseEntity.ok(clientDTO);
+    public ClientDTO getClientAuth(Authentication authentication) {
+        Client client = clientService.findByEmail(authentication.getName());
+        return new ClientDTO(client);
     }
 
     @GetMapping("/clients/{id}")
     public ResponseEntity<ClientDTO> getClient(@PathVariable Long id){
-        Optional<ClientDTO> clientDTOOptional = clientRepository.findById(id)
-                .map(ClientDTO::new);
-
-        return clientDTOOptional
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+       return clientService.findById(id).map(ClientDTO::new)
+               .map(clientDTO -> ResponseEntity.ok().body(clientDTO))
+               .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping(path = "/clients")
+    @PostMapping("/clients")
     public ResponseEntity<Object> register(
             @RequestParam String firstName, @RequestParam String lastName,
             @RequestParam String email, @RequestParam String password) {
-
         if (firstName.isEmpty()){
             return new ResponseEntity<>("Missing data, name cannot be empty", HttpStatus.FORBIDDEN);
         }
@@ -71,12 +74,21 @@ public class ClientController {
             return new ResponseEntity<>("Missing data,password must be at least 4 characters long", HttpStatus.FORBIDDEN);
         }
 
-
-        if (clientRepository.findByEmail(email) !=  null) {
+        if (clientService.findByEmail(email) !=  null) {
             return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN);
         }
 
-        clientRepository.save(new Client(firstName, lastName, email, passwordEncoder.encode(password)));
+        Client client= new Client(firstName, lastName, email, passwordEncoder.encode(password),1);
+        clientService.save(client);
+
+        LocalDate today = LocalDate.now();
+        String accountNumber = AccountUtils.generateAccountNumber();
+        while (accountService.existsByNumber(accountNumber)){
+            accountNumber = AccountUtils.generateAccountNumber();
+        }
+        Account newAccount = new Account(accountNumber, today, 0.0, client,true);
+        accountService.save(newAccount);
+
         return new ResponseEntity<>("Client successfully created",HttpStatus.CREATED);
     }
 }

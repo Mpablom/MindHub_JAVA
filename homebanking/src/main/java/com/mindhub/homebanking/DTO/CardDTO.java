@@ -8,31 +8,34 @@ import java.time.LocalDate;
 
 public class CardDTO {
     private long id;
-    private String cardholder;
+    private String cardHolder;
     private CardType type;
     private CardColor color;
     private String number;
     private int cvv;
     private LocalDate thruDate;
     private LocalDate fromDate;
+    private boolean active;
+
 
     public CardDTO(Card card) {
         this.id = card.getId();
-        this.cardholder = card.getCardholder();
+        this.cardHolder = card.getCardHolder();
         this.type = card.getType();
         this.color = card.getColor();
         this.number = card.getNumber();
         this.cvv = card.getCvv();
         this.thruDate = card.getThruDate();
         this.fromDate = card.getFromDate();
+        this.active = card.isActive();
     }
 
     public long getId() {
         return id;
     }
 
-    public String getCardholder() {
-        return cardholder;
+    public String getCardHolder() {
+        return cardHolder;
     }
 
     public CardType getType() {
@@ -57,5 +60,9 @@ public class CardDTO {
 
     public LocalDate getFromDate() {
         return fromDate;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }

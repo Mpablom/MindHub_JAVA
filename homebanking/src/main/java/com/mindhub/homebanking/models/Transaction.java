@@ -10,23 +10,27 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private TransactionType type;
-    private int amount;
+    private Double amount;
     private String description;
     private LocalDateTime date;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="account_id")
     private Account account;
+    private Double currentAmount;
+    private boolean active;
 
-    //Constructors
+//Constructors
 
     public Transaction() {
     }
-    public Transaction(TransactionType type, int amount, String description, LocalDateTime date, Account account) {
+    public Transaction(TransactionType type, Double amount, String description, LocalDateTime date, Account account, Double currentAmount, boolean active) {
         this.type = type;
         this.amount = amount;
         this.description = description;
         this.date = date;
         this.account = account;
+        this.currentAmount = currentAmount;
+        this.active = active;
     }
 
     //Getters and Setters
@@ -47,11 +51,11 @@ public class Transaction {
         this.type = type;
     }
 
-    public int getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -77,5 +81,19 @@ public class Transaction {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+    public Double getCurrentAmount() {
+        return currentAmount;
+    }
+
+    public void setCurrentAmount(Double currentAmount) {
+        this.currentAmount = currentAmount;
+    }
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

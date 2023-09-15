@@ -16,8 +16,9 @@ public class ClientDTO {
     private Set<ClientLoanDTO> loans = new HashSet<>();
     private Set<CardDTO> cards = new HashSet<>();
     private Set<String> roles = new HashSet<>();
+    private int activeAccountCount;
 
-    //Constructor
+//Constructor
 
     public ClientDTO(Client client) {
         this.id = client.getId();
@@ -31,6 +32,7 @@ public class ClientDTO {
         this.cards = client.getCards().stream()
                 .map(CardDTO::new)
                 .collect(Collectors.toSet());
+        this.activeAccountCount = client.getActiveAccountCount();
     }
 
     //Getters
@@ -65,5 +67,7 @@ public class ClientDTO {
     public Set<String> getRoles() {
         return roles;
     }
-
+    public int getActiveAccountCount() {
+        return activeAccountCount;
+    }
 }

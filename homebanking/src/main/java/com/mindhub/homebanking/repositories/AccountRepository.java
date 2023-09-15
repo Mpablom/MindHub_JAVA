@@ -9,4 +9,9 @@ import java.util.List;
 
 @RepositoryRestResource
 public interface AccountRepository extends JpaRepository<Account,Long> {
+    Account findByNumber(String number);
+    boolean existsByNumber(String accountNumber);
+    Account save(Account account);
+    List<Account> findAll();
+    int countActiveAccountsByClientAndActiveIsTrue(Client client);
 }

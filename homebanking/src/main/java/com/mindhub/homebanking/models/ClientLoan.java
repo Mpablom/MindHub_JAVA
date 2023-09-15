@@ -1,6 +1,8 @@
 package com.mindhub.homebanking.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class ClientLoan {
@@ -8,7 +10,8 @@ public class ClientLoan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private double amount;
-    private int payments;
+    @ElementCollection
+    private List<Integer> payments = new ArrayList<>();
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
@@ -21,7 +24,7 @@ public class ClientLoan {
     public ClientLoan() {
     }
 
-    public ClientLoan(double amount, int payments) {
+    public ClientLoan(double amount, List<Integer> payments) {
         this.amount = amount;
         this.payments = payments;
     }
@@ -44,11 +47,11 @@ public class ClientLoan {
         this.amount = amount;
     }
 
-    public int getPayments() {
+    public List<Integer> getPayments() {
         return payments;
     }
 
-    public void setPayments(int payments) {
+    public void setPayments(List<Integer> payments) {
         this.payments = payments;
     }
 

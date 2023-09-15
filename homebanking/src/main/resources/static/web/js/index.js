@@ -1,5 +1,4 @@
 Vue.createApp({
-
     data() {
         return {
             email: "",
@@ -34,15 +33,11 @@ Vue.createApp({
                 }
             }
             axios.post('/api/clients', `firstName=${this.firstName}&lastName=${this.lastName}&email=${this.email}&password=${this.password}`, config)
-                .then(() => {this.signIn(event);})
-                .catch(error => {
-                        if (error.response && error.response.data) {
-                            this.errorMsg = error.response.data;
-                        } else {
-                            this.errorMsg = "An error occurred. Please try again later.";
-                        }
-                        this.errorToats.show();
-                    });
+                .then(() => { this.signIn(event) })
+                .catch(() => {
+                    this.errorMsg = "Sign up failed, check the information"
+                    this.errorToats.show();
+                })
         },
         showSignUpToogle: function () {
             this.showSignUp = !this.showSignUp;
