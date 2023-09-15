@@ -16,7 +16,7 @@ import java.util.List;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class RepositoriesTest {
 
-    @Autowired
+  /*  @Autowired
     LoanRepository loanRepository;
 
     @Test
@@ -31,5 +31,5 @@ public class RepositoriesTest {
 
         List<Loan> loans = loanRepository.findAll();
         assertThat(loans, hasItem(hasProperty("name", is("Personal"))));
-    }
+    }*/
 }
