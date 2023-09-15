@@ -3,7 +3,9 @@ package com.mindhub.homebanking.models;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -18,17 +20,21 @@ public class Account {
     @JoinColumn(name="client_id")
     private Client client;
     @OneToMany(mappedBy="account", fetch=FetchType.EAGER)
-    private Set<Transaction> transactions = new HashSet<>();
+    private List<Transaction> transactions = new ArrayList<>();
 
-    //Costructors
+
+    private boolean active = true;
+
+//Costructors
 
     public Account() {
     }
-    public Account(String number, LocalDate creationDate, double balance, Client client) {
+    public Account(String number, LocalDate creationDate, double balance, Client client, boolean active) {
         this.number = number;
         this.creationDate = creationDate;
         this.balance = balance;
         this.client = client;
+        this.active = active;
     }
 
     //Getters and Setters
@@ -74,12 +80,22 @@ public class Account {
         this.client = client;
     }
 
-    public Set<Transaction> getTransactions() {
+    public List<Transaction> getTransactions() {
         return transactions;
     }
 
     public void addTransaction(Transaction tr) {
         tr.setAccount(this);
         transactions.add(tr);
+    }
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
     }
 }

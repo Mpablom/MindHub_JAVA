@@ -8,7 +8,7 @@ public class Card {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String cardHolder;
     private CardType type;
     private CardColor color;
@@ -16,14 +16,16 @@ public class Card {
     private int cvv;
     private LocalDate thruDate;
     private LocalDate fromDate;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "client_id")
     private Client client;
+    private boolean active;
 
     public Card() {
     }
 
-    public Card(String cardHolder, CardType type, CardColor color, String number, int cvv, LocalDate thruDate, LocalDate fromDate, Client client) {
+    public Card(String cardHolder, CardType type, CardColor color, String number, int cvv, LocalDate thruDate, LocalDate fromDate, Client client,boolean active) {
         this.cardHolder = cardHolder;
         this.type = type;
         this.color = color;
@@ -32,13 +34,14 @@ public class Card {
         this.thruDate = thruDate;
         this.fromDate = fromDate;
         this.client = client;
+        this.active = active;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -104,5 +107,13 @@ public class Card {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

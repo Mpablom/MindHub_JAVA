@@ -4,14 +4,17 @@ Vue.createApp({
             clientInfo: {},
             errorToats: null,
             errorMsg: null,
+            maxAccountsToShow: 3, // Establece el número máximo de cuentas a mostrar
         }
     },
     methods: {
         getData: function () {
             axios.get("/api/clients/current")
                 .then((response) => {
-                    //get client ifo
-                    this.clientInfo = response.data;
+                    // Filtra las cuentas activas antes de asignarlas a clientInfo.accounts
+                    this.clientInfo.accounts = response.data.accounts.filter(account => account.active);
+                    // Limita el número de cuentas a mostrar
+                    this.clientInfo.accounts = this.clientInfo.accounts.slice(0, this.maxAccountsToShow);
                 })
                 .catch((error) => {
                     // handle error
@@ -32,7 +35,10 @@ Vue.createApp({
         },
         create: function () {
             axios.post('/api/clients/current/accounts')
-                .then(response => window.location.reload())
+                .then(response => {
+                    // Actualizar la vista volviendo a cargar la información del cliente
+                    this.getData();
+                })
                 .catch((error) => {
                     this.errorMsg = error.response.data;
                     this.errorToats.show();

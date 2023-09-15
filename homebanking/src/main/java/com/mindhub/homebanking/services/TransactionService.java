@@ -1,8 +1,7 @@
 package com.mindhub.homebanking.services;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
+import com.mindhub.homebanking.models.Transaction;
 
 public interface TransactionService {
-   ResponseEntity<Object> performTransaction(Double amount, String description, String sourceAccountNumber, String destinationAccountNumber, Authentication authentication);
+   Transaction save(Transaction transaction);
 }

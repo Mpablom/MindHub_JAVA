@@ -166,3 +166,9 @@
 	-webkit-transform: rotateY(0deg);
 	-moz-transform: rotateY(0deg);
 }
+.expired-card,.expired-text {
+  color: red !important;
+}
+.expired-text {
+    color: red !important;
+}

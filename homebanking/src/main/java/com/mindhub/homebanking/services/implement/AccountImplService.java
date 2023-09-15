@@ -3,20 +3,21 @@ package com.mindhub.homebanking.services.implement;
 import com.mindhub.homebanking.DTO.AccountDTO;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
+import com.mindhub.homebanking.models.Transaction;
+import com.mindhub.homebanking.models.TransactionType;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.services.AccountService;
 import com.mindhub.homebanking.services.TransactionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,84 +28,20 @@ import java.util.stream.Collectors;
 public class AccountImplService implements AccountService {
 
     private final AccountRepository accountRepository;
-    private final ClientRepository clientRepository;
     private final TransactionService transactionService;
 
-    public AccountImplService(AccountRepository accountRepository,ClientRepository clientRepository,TransactionService transactionService){
+    public AccountImplService(AccountRepository accountRepository,TransactionService transactionService){
         this.accountRepository=accountRepository;
-        this.clientRepository=clientRepository;
         this.transactionService=transactionService;
     }
 
-
     @Override
-    public ResponseEntity<AccountDTO> getAccount(Long id, Authentication authentication) {
-        Optional<Account> optionalAccount = accountRepository.findById(id);
-
-        if (optionalAccount.isPresent()) {
-            Account account = optionalAccount.get();
-            Client authenticatedClient = clientRepository.findByEmail(authentication.getName());
-
-            if (account.getClient().equals(authenticatedClient)) {
-                AccountDTO accountDTO = new AccountDTO(account);
-                return ResponseEntity.ok(accountDTO);
-            } else {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-            }
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public Optional<Account> findById(Long id){
+        return accountRepository.findById(id);
     }
-
     @Override
-    public List<AccountDTO> getAccounts(){
-        return accountRepository.findAll().stream()
-                .map(AccountDTO::new).collect(Collectors.toList());
-    }
-
-    @Override
-    public ResponseEntity<Object> createAccount(Authentication authentication){
-        if (authentication == null || StringUtils.isEmpty(authentication.getName())) {
-            return new ResponseEntity<>("Authentication data is missing", HttpStatus.BAD_REQUEST);
-        }
-
-        String clientEmail = authentication.getName();
-        if (StringUtils.isEmpty(clientEmail)) {
-            return new ResponseEntity<>("Client email is missing in authentication", HttpStatus.BAD_REQUEST);
-        }
-
-        LocalDate today = LocalDate.now();
-
-        Client client = clientRepository.findByEmail(clientEmail);
-
-        if (client == null) {
-            return new ResponseEntity<>("Client not found", HttpStatus.NOT_FOUND);
-        }
-        if (client.getAccounts().size() >= 3) {
-            return new ResponseEntity<>("Maximum account limit reached", HttpStatus.FORBIDDEN);
-        }
-
-        String accountNumber = generateAccountNumber();
-        Account newAccount = new Account(accountNumber, today, 0.0, client);
-        accountRepository.save(newAccount);
-
-        return new ResponseEntity<>("Account successfully created", HttpStatus.CREATED);
-    }
-
-    @Override
-    public String generateAccountNumber() {
-        StringBuilder accountNumber;
-        do {
-            accountNumber = new StringBuilder("VIN-");
-            Random random = new Random();
-
-            for (int i = 0; i < 8; i++) {
-                int randomNumber = random.nextInt(10);
-                accountNumber.append(randomNumber);
-            }
-        } while (accountRepository.existsByNumber(accountNumber.toString()));
-
-        return accountNumber.toString();
+    public List<Account> findAll(){
+        return accountRepository.findAll();
     }
 
     @Transactional
@@ -129,21 +66,25 @@ public class AccountImplService implements AccountService {
         }
 
         try {
-            transactionService.performTransaction(amount, description, sourceAccount.getNumber(), destinationAccount.getNumber(), authentication);
+            performTransaction(amount, description, sourceAccount.getNumber(), destinationAccount.getNumber(), authentication);
             return ResponseEntity.ok("Transaction successful");
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    public List<AccountDTO> getClientAccounts(String clientEmail) {
-        Client client = clientRepository.findByEmail(clientEmail);
-
-        List<Account> clientAccounts = new ArrayList<>(client.getAccounts());
-        List<AccountDTO> accountDTOs = clientAccounts.stream()
-                .map(AccountDTO::new)
-                .collect(Collectors.toList());
-
-        return accountDTOs;
+    @Override
+    public Account findByNumber(String accountNumber){
+        return accountRepository.findByNumber(accountNumber);
     }
+    @Override
+    public Account save(Account account){
+        return accountRepository.save(account);
+    }
+
+    @Override
+    public boolean existsByNumber(String accountNumber){
+        return accountRepository.existsByNumber(accountNumber);
+    }
+
 }
