@@ -12,15 +12,11 @@ Vue.createApp({
             const id = urlParams.get('id');
             axios.get(`/api/accounts/${id}`)
                 .then((response) => {
-                    // Obtener la información de la cuenta
                     this.accountInfo = response.data;
-                    // Ordenar las transacciones por ID descendente
                     this.accountInfo.transactions.sort((a, b) => (b.id - a.id));
-                    // Filtrar las cuentas activas
-                    this.filterActiveAccounts();
+                    this.filterActiveAndUniqueTransactions();
                 })
                 .catch((error) => {
-                    // Manejar errores
                     this.errorMsg = "Error getting data";
                     this.errorToats.show();
                 });
@@ -47,7 +43,6 @@ Vue.createApp({
             const urlParams = new URLSearchParams(window.location.search);
             const id = urlParams.get('id');
 
-            // Mostrar un mensaje de confirmación
             const isConfirmed = window.confirm("Are you sure you want to deactivate this account?");
 
             if (isConfirmed) {
@@ -64,11 +59,17 @@ Vue.createApp({
                     });
             }
         },
-        filterActiveAccounts: function () {
-            // Filtrar las cuentas activas
-            this.accountInfo.transactions = this.accountInfo.transactions.filter(transaction => transaction.active);
-            console.log("Transacciones activas:", this.accountInfo.transactions);
-        },
+        filterActiveAndUniqueTransactions: function () {
+                    const uniqueTransactions = {};
+                    this.accountInfo.transactions = this.accountInfo.transactions.filter(transaction => {
+                        if (transaction.active && !uniqueTransactions[transaction.id]) {
+                            uniqueTransactions[transaction.id] = true;
+                            return true;
+                        }
+                        return false;
+                    });
+                    console.log("Transacciones activas y únicas:", this.accountInfo.transactions);
+                },
     },
     mounted: function () {
         this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));

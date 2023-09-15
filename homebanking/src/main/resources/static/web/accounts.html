@@ -109,15 +109,16 @@
                         </div>
                     </div>
                     <div class="row mx-2">
-                        <div v-for="loan in clientInfo.loans" class="col-12 col-md-4 mt-2">
+                        <div v-for="loan in clientInfo.loans" :key="loan.id" class="col-12 col-md-4 mt-2">
                             <div class="card border-0 loan">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ loan.name }}</h5>
-                                    <p class="card-text"> payments: {{ loan.payments}}</p>
-                                    <p class="text-center lead account-balance"> ${{ loan.amount }} </p>
+                                    <p class="card-text">Payments: {{ loan.payments }}</p>
+                                    <p class="text-center lead account-balance">$ {{ loan.amount }}</p>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

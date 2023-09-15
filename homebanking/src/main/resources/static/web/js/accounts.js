@@ -15,6 +15,7 @@ Vue.createApp({
                     this.clientInfo.accounts = response.data.accounts.filter(account => account.active);
                     // Limita el número de cuentas a mostrar
                     this.clientInfo.accounts = this.clientInfo.accounts.slice(0, this.maxAccountsToShow);
+                    this.clientInfo.loans = response.data.loans;
                 })
                 .catch((error) => {
                     // handle error
