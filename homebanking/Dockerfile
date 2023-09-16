@@ -1,11 +1,15 @@
 FROM gradle:7.5.1-jdk11-alpine
 
+# Establece un directorio de trabajo en el contenedor
 WORKDIR /app
 
-# Copiar los archivos de aplicación desde el directorio del proyecto al contenedor
-COPY ./src /app/src
+# Copia solo los archivos Gradle necesarios
+COPY build.gradle settings.gradle /app/
 
-# Construir la aplicación
+# Copia el directorio src
+COPY src /app/src
+
+# Ejecuta gradle build en el directorio /app
 RUN gradle build
 
 EXPOSE 8080
