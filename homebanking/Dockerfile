@@ -7,7 +7,7 @@ WORKDIR /app
 COPY build.gradle settings.gradle /app/
 
 # Copia el directorio src
-COPY src /app/src
+COPY . .
 
 # Ejecuta gradle build en el directorio /app
 RUN gradle build
