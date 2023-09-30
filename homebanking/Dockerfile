@@ -1,14 +1,15 @@
-FROM gradle:7.5.1-jdk11-alpine
+FROM ubuntu:latest AS build
 
-# Establece un directorio de trabajo en el contenedor
-WORKDIR /homebanking
-# Copia solo los archivos Gradle necesarios
+RUN apt-get update
+RUN apt-get install openjdk-11-jdk -y
 COPY . .
-# Ejecuta gradle build en el directorio /app
-RUN gradle build
+
+RUN ./gradlew bootJar --no-daemon
+
+FROM openjdk:11-jdk-slim
 
 EXPOSE 8080
 
-ENV PORT=8080
+COPY --from=build /build/libs/homebanking-0.0.1-SNAPSHOT.jar app.jar
 
-ENTRYPOINT ["java","-jar","build/libs/homebanking-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
