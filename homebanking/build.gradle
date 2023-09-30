@@ -35,3 +35,15 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+java {
+	sourceCompatibility = JavaVersion.VERSION_1_8
+	targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+springBoot {
+	mainClass = 'com.mindhub.homebanking.HomebankingApplication'
+}
+
+bootJar {
+	launchScript()
+}
