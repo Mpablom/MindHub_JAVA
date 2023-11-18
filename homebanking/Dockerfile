@@ -4,9 +4,9 @@ WORKDIR /app
 
 COPY . /app
 
-RUN apk update && apk add --no-cache wget unzip
-
-RUN chmod +x ./build/libs/homebanking-0.0.1-SNAPSHOT.jar
+RUN apk update && \
+    apk add --no-cache wget unzip && \
+    chmod +x ./build/libs/homebanking-0.0.1-SNAPSHOT.jar
 
 EXPOSE 8080
 
