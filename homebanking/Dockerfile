@@ -4,9 +4,7 @@ WORKDIR /app
 
 COPY . /app
 
-RUN wget https://services.gradle.org/distributions/gradle-7.3-bin.zip -P /tmp \
-    && unzip -d /opt/gradle /tmp/gradle-7.3-bin.zip \
-    && rm -rf /tmp/gradle-7.3-bin.zip
+RUN apk update && apk add --no-cache wget unzip
 
 ENV GRADLE_HOME=/opt/gradle/gradle-7.3
 ENV PATH=$PATH:$GRADLE_HOME/bin
