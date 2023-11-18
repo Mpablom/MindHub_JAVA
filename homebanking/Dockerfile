@@ -8,5 +8,5 @@ RUN apk update && apk add --no-cache wget unzip
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "tu-aplicacion.jar"]
+CMD ["java", "-jar", "homebaking-0.0.1-SNAPSHOT.jar"]
 
