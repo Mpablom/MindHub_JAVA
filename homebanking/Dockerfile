@@ -5,7 +5,7 @@ WORKDIR /app
 RUN pwd
 RUN ls -la
 
-COPY build/libs/ /app/build/libs/
+COPY . /app
 
 RUN ls -la /app/build/libs/ || true
 
@@ -14,7 +14,6 @@ RUN apk update && \
     chmod +x /app/build/libs/homebanking-0.0.1-SNAPSHOT.jar
 
 RUN echo "Contents of /app:" && ls -la /app && \
-    echo "Contents of /app/build:" && ls -la /app/build && \
     echo "Contents of /app/build/libs:" && ls -la /app/build/libs
 
 EXPOSE 8080
