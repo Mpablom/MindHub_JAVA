@@ -2,8 +2,7 @@ FROM docker.io/library/amazoncorretto:11-alpine-jdk@sha256:a1d5c7d78d7ba10040ea2
 
 WORKDIR /app
 
-RUN pwd
-RUN ls -la
+RUN mkdir -p /app/build/libs
 
 COPY . /app
 
@@ -12,9 +11,6 @@ RUN ls -la /app/build/libs/ || true
 RUN apk update && \
     apk add --no-cache wget unzip && \
     chmod +x /app/*
-
-RUN echo "Contents of /app:" && ls -la /app && \
-    echo "Contents of /app/build/libs:" && ls -la /app/build/libs
 
 EXPOSE 8080
 
