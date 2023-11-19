@@ -5,7 +5,7 @@ WORKDIR /app
 RUN pwd
 RUN ls -la
 
-COPY . /app
+COPY build/libs/ /app/build/libs/
 
 RUN ls -la /app/build/libs/
 
