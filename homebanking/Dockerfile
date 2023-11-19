@@ -2,14 +2,17 @@ FROM docker.io/library/amazoncorretto:11-alpine-jdk@sha256:a1d5c7d78d7ba10040ea2
 
 WORKDIR /app
 
+RUN pwd
+RUN ls -la
+
 COPY . /app
 
 RUN ls -la /app/build/libs/
 
 RUN apk update && \
     apk add --no-cache wget unzip && \
-    chmod +x ./build/libs/homebanking-0.0.1-SNAPSHOT.jar
+    chmod +x /app/build/libs/homebanking-0.0.1-SNAPSHOT.jar
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "./build/libs/homebanking-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "/app/build/libs/homebanking-0.0.1-SNAPSHOT.jar"]
